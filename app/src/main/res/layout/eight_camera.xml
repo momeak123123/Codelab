@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".eight_camera">
+
+    <TextureView
+        android:id="@+id/tv_camera"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/d680"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/d50"
+        android:background="@color/advocate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/d120"
+        android:background="@color/advocate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_take"
+        android:layout_width="@dimen/d75"
+        android:layout_height="@dimen/d75"
+        app:layout_constraintBottom_toBottomOf="@+id/view2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:srcCompat="@drawable/photo" />
+
+    <ImageView
+        android:id="@+id/btn_switch"
+        android:layout_width="@dimen/d45"
+        android:layout_height="@dimen/d45"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_take"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_take"
+        app:layout_constraintTop_toTopOf="@+id/btn_take"
+        app:srcCompat="@drawable/cut" />
+
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/iv_show"
+        android:layout_width="@dimen/d45"
+        android:layout_height="@dimen/d45"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_take"
+        app:layout_constraintEnd_toStartOf="@+id/btn_take"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_take"
+        app:qmui_border_color="@color/white"
+        app:qmui_border_width="@dimen/d2"
+        app:qmui_is_circle="true"
+        app:qmui_is_oval="true"
+        app:qmui_selected_border_color="#ffffff"
+        app:qmui_selected_border_width="@dimen/d2"
+        app:qmui_selected_mask_color="@color/white" />
+
+    <ImageView
+        android:id="@+id/btn_delay"
+        android:layout_width="@dimen/d30"
+        android:layout_height="@dimen/d30"
+        android:layout_marginEnd="@dimen/d8"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toStartOf="@+id/delaytxt"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:srcCompat="@drawable/delays" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="@dimen/d35"
+        android:layout_height="@dimen/d35"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:srcCompat="@drawable/returns" />
+
+    <TextView
+        android:id="@+id/delaytxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/d8"
+        android:text="延迟"
+        android:textColor="@color/qmui_config_color_white"
+        android:textSize="@dimen/s14"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_delay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_delay"
+        app:layout_constraintVertical_bias="0.545" />
+
+    <TextView
+        android:id="@+id/headtxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/imageView6"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#00CFAF</color>
+    <color name="colorPrimaryDark">#00CFAF</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="background">#F5F5F5</color>
+    <color name="textcolers">#3e4043</color>
+    <color name="textcoler">#a4a4a4</color>
+    <color name="advocate">#00CFAF</color>
+    <color name="fen">#e8e8e8</color>
+    <color name="coloronclice">#2adfc4</color>
+    <color name="text_color">#222222</color>
+    <color name="white">#FFFFFF</color>
+</resources>
