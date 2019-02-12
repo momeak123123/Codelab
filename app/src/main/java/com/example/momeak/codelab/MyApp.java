@@ -12,11 +12,25 @@ public class MyApp extends Application{
     public void setScore(int score) {
         this.score = score;
     }
+
+
+
+    private int set = 0;
+
+    public int getScoret() {
+        return set;
+    }
+
+    public void setScoret(int set) {
+        this.set = set;
+    }
+
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
         setScore(0); //初始化全局变量
+        setScoret(0);
     }
 }
 

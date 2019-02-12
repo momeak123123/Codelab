@@ -109,6 +109,7 @@ public class four_statics_one extends AppCompatActivity {
     private Bitmap headbit11;
     private Bitmap headbit12;
     private Bitmap headbit13;
+    private int data;
 
 
     @Override

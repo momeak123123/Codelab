@@ -8,29 +8,32 @@
 
     <ImageView
         android:id="@+id/h8"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="@dimen/d20"
+        android:layout_width="@dimen/d80"
+        android:layout_height="@dimen/d80"
+        android:layout_marginStart="@dimen/d15"
         android:layout_marginTop="@dimen/d20"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toEndOf="@+id/h7"
         app:layout_constraintTop_toBottomOf="@+id/h4"
         tools:srcCompat="@tools:sample/avatars[4]" />
 
     <ImageView
         android:id="@+id/h7"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="@dimen/d20"
+        android:layout_width="@dimen/d80"
+        android:layout_height="@dimen/d80"
+        android:layout_marginStart="@dimen/d15"
         android:layout_marginTop="@dimen/d20"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toEndOf="@+id/h6"
         app:layout_constraintTop_toBottomOf="@+id/h3"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <ImageView
         android:id="@+id/h4"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="@dimen/d20"
+        android:layout_width="@dimen/d80"
+        android:layout_height="@dimen/d80"
+        android:layout_marginStart="@dimen/d15"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/h3"
         app:layout_constraintStart_toEndOf="@+id/h3"
         app:layout_constraintTop_toTopOf="@+id/h3"
@@ -38,28 +41,30 @@
 
     <ImageView
         android:id="@+id/h5"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/d80"
+        android:layout_height="@dimen/d80"
         android:layout_marginStart="@dimen/d20"
         android:layout_marginTop="@dimen/d20"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/h1"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <ImageView
         android:id="@+id/h6"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="@dimen/d20"
+        android:layout_width="@dimen/d80"
+        android:layout_height="@dimen/d80"
+        android:layout_marginStart="@dimen/d15"
         android:layout_marginTop="@dimen/d20"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toEndOf="@+id/h5"
         app:layout_constraintTop_toBottomOf="@+id/h2"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <org.opencv.android.JavaCameraView
         android:id="@+id/javaCameraView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="@dimen/d300"
+        android:layout_height="@dimen/d300"
         android:layout_marginTop="@dimen/d40"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.453"
@@ -78,19 +83,21 @@
 
     <ImageView
         android:id="@+id/h1"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="@dimen/d80"
+        android:layout_height="@dimen/d80"
         android:layout_marginStart="@dimen/d20"
         android:layout_marginTop="@dimen/d40"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/javaCameraView"
         tools:srcCompat="@tools:sample/avatars[0]" />
 
     <ImageView
         android:id="@+id/h2"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="@dimen/d20"
+        android:layout_width="@dimen/d80"
+        android:layout_height="@dimen/d80"
+        android:layout_marginStart="@dimen/d15"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/h1"
         app:layout_constraintStart_toEndOf="@+id/h1"
         app:layout_constraintTop_toTopOf="@+id/h1"
@@ -98,9 +105,10 @@
 
     <ImageView
         android:id="@+id/h3"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="@dimen/d20"
+        android:layout_width="@dimen/d80"
+        android:layout_height="@dimen/d80"
+        android:layout_marginStart="@dimen/d15"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/h2"
         app:layout_constraintStart_toEndOf="@+id/h2"
         app:layout_constraintTop_toTopOf="@+id/h2"

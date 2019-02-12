@@ -136,7 +136,7 @@ public class four_two extends Fragment {
         headtxts.setText("基于opencv的动态测试");
         imbtxt1.setText("1:1人脸识别");
         imbtxt2.setText("1:N人脸识别");
-        imbtxt5.setText("M:N人脸识别");
+        imbtxt3.setText("M:N人脸识别");
         return view;
     }
 
@@ -159,7 +159,7 @@ public class four_two extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.imb10, R.id.imb7, R.id.imb8, R.id.imb9, R.id.switchs, R.id.imb5, R.id.imb6, R.id.imb5, R.id.imb4, R.id.imb1, R.id.imb2})
+    @OnClick({R.id.imb10, R.id.imb7, R.id.imb8, R.id.imb9, R.id.switchs, R.id.imb5, R.id.imb6, R.id.imb3, R.id.imb4, R.id.imb1, R.id.imb2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.switchs:
@@ -173,37 +173,37 @@ public class four_two extends Fragment {
                 break;
             case R.id.imb7:
                 Intent intent7 = new Intent(getContext(), four_statics_two.class);
-                intent7.putExtra("id", 56);
+                intent7.putExtra("id", 46);
                 startActivity(intent7);
                 break;
             case R.id.imb6:
                 Intent intent6 = new Intent(getContext(), four_statics_two.class);
-                intent6.putExtra("id", 55);
+                intent6.putExtra("id", 45);
                 startActivity(intent6);
                 break;
             case R.id.imb5:
                 Intent intent5 = new Intent(getContext(), four_statics_two.class);
-                intent5.putExtra("id", 54);
+                intent5.putExtra("id", 44);
                 startActivity(intent5);
                 break;
             case R.id.imb4:
                 Intent intent4 = new Intent(getContext(), four_statics_two.class);
-                intent4.putExtra("id", 53);
+                intent4.putExtra("id", 43);
                 startActivity(intent4);
                 break;
             case R.id.imb3:
                 Intent intent3 = new Intent(getContext(), four_statics_two.class);
-                intent3.putExtra("id", 52);
+                intent3.putExtra("id", 42);
                 startActivity(intent3);
                 break;
             case R.id.imb2:
                 Intent intent2 = new Intent(getContext(), four_statics_two.class);
-                intent2.putExtra("id", 51);
+                intent2.putExtra("id", 41);
                 startActivity(intent2);
                 break;
             case R.id.imb1:
                 Intent intent1 = new Intent(getContext(), four_statics_two.class);
-                intent1.putExtra("id", 50);
+                intent1.putExtra("id", 40);
                 startActivity(intent1);
                 break;
 
