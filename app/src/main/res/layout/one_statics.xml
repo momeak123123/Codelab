@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".one_statics2">
+    tools:context=".one_processing">
 
     <SeekBar
         android:id="@+id/seekBar2"
@@ -125,7 +125,9 @@
         android:id="@+id/head"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginStart="@dimen/d8"
         android:layout_marginTop="@dimen/d8"
+        android:layout_marginEnd="@dimen/d8"
         android:layout_marginBottom="@dimen/d50"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/seekBar3"

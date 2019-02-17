@@ -6,8 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -28,10 +30,20 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
     BottomNavigationBar navbar1;
     @BindView(R.id.layout1)
     LinearLayout layout1;
+    @BindView(R.id.view5)
+    View view5;
+    @BindView(R.id.headtxt)
+    TextView headtxt;
+    @BindView(R.id.headtxts)
+    TextView headtxts;
+    @BindView(R.id.switchtxt)
+    TextView switchtxt;
+    @BindView(R.id.switchs)
+    Switch switchs;
     private ArrayList<Fragment> fragments;
-    private two_static_state mstatic;
-    private two_dynamic_condition mdynamic;
-
+    private two_people mstatic;
+    private two_image mdynamic;
+    MyApp application = ((MyApp) this.getApplicationContext());
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +57,8 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC
                 );
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.statics, "静态").setActiveColorResource(R.color.coloronclice))
-                .addItem(new BottomNavigationItem(R.drawable.dynamic, "动态").setActiveColorResource(R.color.coloronclice))
+                .addItem(new BottomNavigationItem(R.drawable.people_detection, "人物检测").setActiveColorResource(R.color.coloronclice))
+                .addItem(new BottomNavigationItem(R.drawable.image_detection, "图像检测").setActiveColorResource(R.color.coloronclice))
                 .setFirstSelectedPosition(0)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
@@ -59,7 +71,7 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
     private void setDefaultFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        mstatic = two_static_state.newInstance();
+        mstatic = two_people.newInstance();
         transaction.replace(R.id.layout1, mstatic);
         transaction.commit();
     }
@@ -72,15 +84,39 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
         switch (position) {
             case 0:
                 if (mstatic == null) {
-                    mstatic = two_static_state.newInstance();
+                    mstatic = two_people.newInstance();
                 }
                 transaction.replace(R.id.layout1, mstatic);
+                headtxt.setText("人物检测");
+                headtxts.setText("基于opencv的人物检测处理");
+                if(application.getScore()==0)
+                {
+                    switchtxt.setText("摄像头状态:后置");
+                    switchs.setChecked(false);
+                }
+                else
+                {
+                    switchtxt.setText("摄像头状态:前置");
+                    switchs.setChecked(true);
+                }
                 break;
             case 1:
                 if (mdynamic == null) {
-                    mdynamic = two_dynamic_condition.newInstance();
+                    mdynamic = two_image.newInstance();
                 }
                 transaction.replace(R.id.layout1, mdynamic);
+                headtxt.setText("图像检测");
+                headtxts.setText("基于opencv的图像检测处理");
+                if(application.getScore()==0)
+                {
+                    switchtxt.setText("摄像头状态:后置");
+                    switchs.setChecked(false);
+                }
+                else
+                {
+                    switchtxt.setText("摄像头状态:前置");
+                    switchs.setChecked(true);
+                }
                 break;
             default:
                 break;
@@ -107,8 +143,22 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
 
     }
 
-    @OnClick(R.id.fold)
-    public void onViewClicked() {
-        this.finish();
+    @OnClick({R.id.fold, R.id.switchs})
+    public void onViewClicked(View view) {
+
+        switch (view.getId()) {
+            case R.id.fold:
+                this.finish();
+                break;
+            case R.id.switchs:
+                if (switchs.isChecked()) {
+                    switchtxt.setText("摄像头状态:前置");
+                    application.setScore(1);
+                } else {
+                    switchtxt.setText("摄像头状态:后置");
+                    application.setScore(0);
+                }
+                break;
+        }
     }
 }

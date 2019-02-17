@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/imb"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/d80"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/d20"
+        android:layout_marginTop="@dimen/d10"
+        android:layout_marginEnd="@dimen/d20"
+        android:background="@drawable/shape_radius"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/head"
+        android:layout_width="@dimen/d60"
+        android:layout_height="@dimen/d60"
+        android:layout_marginStart="@dimen/d20"
+        android:elevation="@dimen/d3"
+        android:scaleType="centerCrop"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintBottom_toBottomOf="@+id/imb"
+        app:layout_constraintStart_toStartOf="@+id/imb"
+        app:layout_constraintTop_toTopOf="@+id/imb"
+        app:qmui_border_color="@color/background"
+        app:qmui_border_width="2dp"
+        app:qmui_is_circle="true"
+        app:qmui_is_oval="true"
+        app:qmui_selected_border_color="#ffffff"
+        app:qmui_selected_border_width="2dp"
+        app:qmui_selected_mask_color="@color/background"
+        app:srcCompat="@drawable/uploading" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/d30"
+        android:elevation="@dimen/d3"
+        android:text="姓名"
+        android:textColor="@color/qmui_config_color_pure_black"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintBottom_toBottomOf="@+id/head"
+        app:layout_constraintStart_toEndOf="@+id/head"
+        app:layout_constraintTop_toTopOf="@+id/head" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/d1"
+        android:layout_marginTop="@dimen/d10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imb"
+        app:srcCompat="@color/background" />
+
+</android.support.constraint.ConstraintLayout>

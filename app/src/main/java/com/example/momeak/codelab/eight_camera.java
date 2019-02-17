@@ -34,6 +34,8 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -55,6 +57,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 
 public class eight_camera extends AppCompatActivity {
     @BindView(R.id.tv_camera)
@@ -197,15 +200,7 @@ public class eight_camera extends AppCompatActivity {
         setContentView(R.layout.eight_camera);
         ButterKnife.bind(this);
         DisplayMetrics dm = getResources().getDisplayMetrics();
-        int densityDpi = dm.densityDpi;
-        float scaledDensity = dm.scaledDensity;
-        float xdpi = dm.xdpi;
-        float ydpi = dm.ydpi;
-        int height = dm.heightPixels;
-        int width = dm.widthPixels;
-       TextView fold = findViewById(R.id.headtxt);
-        fold.setText("height:"+height/scaledDensity+"width"+width/scaledDensity+"/"+densityDpi);
-       /* ViewTreeObserver vto = tvCamera.getViewTreeObserver();
+        ViewTreeObserver vto = tvCamera.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -213,8 +208,8 @@ public class eight_camera extends AppCompatActivity {
                 DisplayMetrics dm = getResources().getDisplayMetrics();
                 int height = dm.heightPixels;
                 int width = dm.widthPixels;
-                double a = (double) width / 1080;
-                double c = (double) 2000 * a;
+                double a = (double) width / 960;
+                double c = (double) 1740 * a;
                 ViewGroup.LayoutParams layoutParams = tvCamera.getLayoutParams();
                 //设置宽度
                 layoutParams.width = width;
@@ -222,15 +217,7 @@ public class eight_camera extends AppCompatActivity {
                 layoutParams.height = (int)c;
                 tvCamera.setLayoutParams(layoutParams);
             }
-        });*/
-    }
-
-    private Bitmap compressScaleBitmap(Bitmap bit) {
-        Matrix matrix = new Matrix();
-        matrix.setScale(0.1f, 0.1f);
-        Bitmap bm = Bitmap.createBitmap(bit, 0, 0, bit.getWidth(),
-                bit.getHeight(), matrix, true);
-        return bm;
+        });
     }
 
     @Override
@@ -384,7 +371,7 @@ public class eight_camera extends AppCompatActivity {
                         rotateBitmap = bitmap;
                         // 显示
                         if (bitmap != null) {
-                            Bitmap bitmap1 = compressScaleBitmap(rotateBitmap);
+                            Bitmap bitmap1 = Bitmap_compress.compressScaleBitmap(rotateBitmap);
                             if (CameraId == 1) {
                                 bitmap1 = createPhotos(bitmap1, 90);
                             } else {
@@ -649,7 +636,7 @@ public class eight_camera extends AppCompatActivity {
             //生成的翻转后的bitmap
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, m, true);
         }
-        SaveBitmap save = new SaveBitmap();
+        Bitmap_save save = new Bitmap_save();
         save.saveBitmaps(bitmap);
     }
 
@@ -677,6 +664,7 @@ public class eight_camera extends AppCompatActivity {
             case R.id.imageView6:
                 Intent intent6 = new Intent(eight_camera.this, MainActivity.class);
                 startActivity(intent6);
+                this.finish();
                 break;
         }
     }

@@ -5,83 +5,102 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".one_static_state">
-    <View
-        android:id="@+id/view5"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/d120"
-        android:background="@color/advocate"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".one_picture">
+
+    <ImageButton
+        android:id="@+id/imb14"
+        android:layout_width="@dimen/d160"
+        android:layout_height="@dimen/d80"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_radius"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintEnd_toEndOf="@+id/imb12"
+        app:layout_constraintStart_toStartOf="@+id/imb12"
+        app:layout_constraintTop_toBottomOf="@+id/imb12" />
 
     <TextView
-        android:id="@+id/headtxt"
+        android:id="@+id/imbtxt14"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="@dimen/d30"
-        android:layout_marginTop="@dimen/d30"
-        android:text="headtxt"
-        android:textColor="@color/qmui_config_color_white"
-        android:textSize="@dimen/s24"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/view5"
-        app:layout_constraintTop_toTopOf="@+id/view5" />
-
-    <TextView
-        android:id="@+id/headtxts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="0dp"
+        android:layout_alignStart="@+id/imb1"
+        android:layout_alignBottom="@+id/imb1"
         android:layout_marginTop="@dimen/d10"
-        android:text="headtxts"
-        android:textColor="@color/background"
-        android:textSize="@dimen/s14"
-        app:layout_constraintStart_toStartOf="@+id/headtxt"
-        app:layout_constraintTop_toBottomOf="@+id/headtxt" />
+        android:elevation="@dimen/d3"
+        android:text="imbtxt"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintStart_toStartOf="@+id/ima14"
+        app:layout_constraintTop_toBottomOf="@+id/ima14" />
+
+    <ImageView
+        android:id="@+id/ima14"
+        android:layout_width="@dimen/d60"
+        android:layout_height="@dimen/d3"
+        android:layout_alignStart="@+id/imb1"
+        android:layout_alignTop="@+id/imb1"
+        android:layout_marginStart="@dimen/d20"
+        android:layout_marginTop="@dimen/d30"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintStart_toStartOf="@+id/imb14"
+        app:layout_constraintTop_toTopOf="@+id/imb14"
+        app:srcCompat="@color/design_default_color_primary_dark" />
+
+    <ImageButton
+        android:id="@+id/imb12"
+        android:layout_width="@dimen/d160"
+        android:layout_height="@dimen/d80"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/d20"
+        android:background="@drawable/shape_radius"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintEnd_toEndOf="@+id/imb10"
+        app:layout_constraintStart_toStartOf="@+id/imb10"
+        app:layout_constraintTop_toBottomOf="@+id/imb10" />
 
     <TextView
-        android:id="@+id/switchtxt"
+        android:id="@+id/imbtxt12"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/d30"
-        android:text="switchtxts"
-        android:textColor="@color/qmui_config_color_white"
-        android:textSize="@dimen/s14"
-        app:layout_constraintBottom_toBottomOf="@+id/headtxts"
-        app:layout_constraintStart_toEndOf="@+id/headtxts"
-        app:layout_constraintTop_toTopOf="@+id/headtxts" />
+        android:layout_height="0dp"
+        android:layout_alignStart="@+id/imb1"
+        android:layout_alignBottom="@+id/imb1"
+        android:layout_marginTop="@dimen/d10"
+        android:elevation="@dimen/d3"
+        android:text="imbtxt"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintStart_toStartOf="@+id/ima12"
+        app:layout_constraintTop_toBottomOf="@+id/ima12" />
 
-    <Switch
-        android:id="@+id/switchs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/d10"
-        android:checked="false"
-        android:textColor="@color/qmui_config_color_white"
-        android:textSize="@dimen/s14"
-        android:thumb="@drawable/switch_custom_thumb_selector"
-        android:track="@drawable/switch_custom_track_selector"
-        app:layout_constraintBottom_toBottomOf="@+id/switchtxt"
-        app:layout_constraintStart_toEndOf="@+id/switchtxt"
-        app:layout_constraintTop_toTopOf="@+id/switchtxt"
-        app:layout_constraintVertical_bias="0.0"
-        tools:checked="false" />
+    <ImageView
+        android:id="@+id/ima12"
+        android:layout_width="@dimen/d60"
+        android:layout_height="@dimen/d3"
+        android:layout_alignStart="@+id/imb1"
+        android:layout_alignTop="@+id/imb1"
+        android:layout_marginStart="@dimen/d20"
+        android:layout_marginTop="@dimen/d30"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintStart_toStartOf="@+id/imb12"
+        app:layout_constraintTop_toTopOf="@+id/imb12"
+        app:srcCompat="?attr/colorError" />
+
     <ImageButton
         android:id="@+id/imb10"
         android:layout_width="@dimen/d160"
         android:layout_height="@dimen/d80"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="28dp"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
-        app:layout_constraintStart_toEndOf="@+id/imb9"
+        app:layout_constraintEnd_toEndOf="@+id/imb8"
+        app:layout_constraintStart_toStartOf="@+id/imb8"
         app:layout_constraintTop_toBottomOf="@+id/imb8" />
 
     <ImageButton
@@ -90,12 +109,12 @@
         android:layout_height="@dimen/d80"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/d30"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imb5"
+        app:layout_constraintStart_toStartOf="@+id/imb5"
         app:layout_constraintTop_toBottomOf="@+id/imb5" />
 
     <ImageButton
@@ -104,12 +123,12 @@
         android:layout_height="@dimen/d80"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="28dp"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
-        app:layout_constraintStart_toEndOf="@+id/imb7"
+        app:layout_constraintEnd_toEndOf="@+id/imb6"
+        app:layout_constraintStart_toStartOf="@+id/imb6"
         app:layout_constraintTop_toBottomOf="@+id/imb6" />
 
 
@@ -119,13 +138,95 @@
         android:layout_height="@dimen/d80"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/d30"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imb7"
+        app:layout_constraintStart_toStartOf="@+id/imb7"
         app:layout_constraintTop_toBottomOf="@+id/imb7" />
+
+    <ImageButton
+        android:id="@+id/imb11"
+        android:layout_width="@dimen/d160"
+        android:layout_height="@dimen/d80"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/d20"
+        android:background="@drawable/shape_radius"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintEnd_toEndOf="@+id/imb9"
+        app:layout_constraintStart_toStartOf="@+id/imb9"
+        app:layout_constraintTop_toBottomOf="@+id/imb9" />
+
+    <TextView
+        android:id="@+id/imbtxt11"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignStart="@+id/imb1"
+        android:layout_alignBottom="@+id/imb1"
+        android:layout_marginTop="@dimen/d10"
+        android:elevation="@dimen/d3"
+        android:text="imbtxt"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintStart_toStartOf="@+id/ima11"
+        app:layout_constraintTop_toBottomOf="@+id/ima11" />
+
+    <ImageView
+        android:id="@+id/ima11"
+        android:layout_width="@dimen/d60"
+        android:layout_height="@dimen/d3"
+        android:layout_alignStart="@+id/imb1"
+        android:layout_alignTop="@+id/imb1"
+        android:layout_marginStart="@dimen/d20"
+        android:layout_marginTop="@dimen/d30"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintStart_toStartOf="@+id/imb11"
+        app:layout_constraintTop_toTopOf="@+id/imb11"
+        app:srcCompat="@android:color/holo_purple" />
+
+    <ImageButton
+        android:id="@+id/imb13"
+        android:layout_width="@dimen/d160"
+        android:layout_height="@dimen/d80"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/shape_radius"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintEnd_toEndOf="@+id/imb11"
+        app:layout_constraintStart_toStartOf="@+id/imb11"
+        app:layout_constraintTop_toBottomOf="@+id/imb11" />
+
+    <TextView
+        android:id="@+id/imbtxt13"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_alignStart="@+id/imb1"
+        android:layout_alignBottom="@+id/imb1"
+        android:layout_marginTop="@dimen/d10"
+        android:elevation="@dimen/d3"
+        android:text="imbtxt"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintStart_toStartOf="@+id/ima13"
+        app:layout_constraintTop_toBottomOf="@+id/ima13" />
+
+    <ImageView
+        android:id="@+id/ima13"
+        android:layout_width="@dimen/d60"
+        android:layout_height="@dimen/d3"
+        android:layout_alignStart="@+id/imb1"
+        android:layout_alignTop="@+id/imb1"
+        android:layout_marginStart="@dimen/d20"
+        android:layout_marginTop="@dimen/d30"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintStart_toStartOf="@+id/imb13"
+        app:layout_constraintTop_toTopOf="@+id/imb13"
+        app:srcCompat="@color/colorPrimary" />
 
     <ImageButton
         android:id="@+id/imb5"
@@ -133,12 +234,12 @@
         android:layout_height="@dimen/d80"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/d30"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imb3"
+        app:layout_constraintStart_toStartOf="@+id/imb3"
         app:layout_constraintTop_toBottomOf="@+id/imb3" />
 
     <ImageButton
@@ -147,12 +248,12 @@
         android:layout_height="@dimen/d80"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/d30"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imb1"
+        app:layout_constraintStart_toStartOf="@+id/imb1"
         app:layout_constraintTop_toBottomOf="@+id/imb1" />
 
 
@@ -162,12 +263,12 @@
         android:layout_height="@dimen/d80"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/d30"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
-        app:layout_constraintStart_toEndOf="@+id/imb3"
+        app:layout_constraintEnd_toEndOf="@+id/imb2"
+        app:layout_constraintStart_toStartOf="@+id/imb2"
         app:layout_constraintTop_toBottomOf="@+id/imb2" />
 
     <ImageButton
@@ -182,7 +283,7 @@
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/imb2"
@@ -196,7 +297,7 @@
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
         app:layout_constraintStart_toEndOf="@+id/imb1"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
+        app:layout_constraintTop_toTopOf="parent" />
     <ImageView
         android:id="@+id/ima3"
         android:layout_width="@dimen/d60"
@@ -366,9 +467,9 @@
         android:layout_marginTop="@dimen/d20"
         android:src="@color/background"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imb9" />
+        app:layout_constraintTop_toBottomOf="@+id/imb13" />
     <ImageView
         android:id="@+id/ima5"
         android:layout_width="@dimen/d60"
@@ -402,12 +503,12 @@
         android:layout_height="@dimen/d80"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/d30"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
         android:elevation="@dimen/d3"
         android:translationZ="@dimen/d3"
-        app:layout_constraintStart_toEndOf="@+id/imb5"
+        app:layout_constraintEnd_toEndOf="@+id/imb4"
+        app:layout_constraintStart_toStartOf="@+id/imb4"
         app:layout_constraintTop_toBottomOf="@+id/imb4" />
 
     <ImageView

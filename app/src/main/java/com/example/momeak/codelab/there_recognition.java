@@ -22,8 +22,8 @@ public class there_recognition extends AppCompatActivity implements BottomNaviga
     @BindView(R.id.txt)
     TextView txt;
     private ArrayList<Fragment> fragments;
-    private there_static_state mstatic;
-    private there_baidu mdynamic;
+    private there_contrast mstatic;
+    private there_enhance mdynamic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +31,15 @@ public class there_recognition extends AppCompatActivity implements BottomNaviga
         getSupportActionBar().hide();
         setContentView(R.layout.activity_layout);
         ButterKnife.bind(this);
-        txt.setText("识别");
+        txt.setText("算法");
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.navbar1);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
         bottomNavigationBar
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC
                 );
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.statics, "静态").setActiveColorResource(R.color.coloronclice))
-                .addItem(new BottomNavigationItem(R.drawable.baidu, "百度").setActiveColorResource(R.color.coloronclice))
+                .addItem(new BottomNavigationItem(R.drawable.comparison, "图像对比").setActiveColorResource(R.color.coloronclice))
+                .addItem(new BottomNavigationItem(R.drawable.enhance, "图像增强").setActiveColorResource(R.color.coloronclice))
                 .setFirstSelectedPosition(0)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
@@ -52,7 +52,7 @@ public class there_recognition extends AppCompatActivity implements BottomNaviga
     private void setDefaultFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        mstatic = there_static_state.newInstance();
+        mstatic = there_contrast.newInstance();
         transaction.replace(R.id.layout1, mstatic);
         transaction.commit();
     }
@@ -65,13 +65,13 @@ public class there_recognition extends AppCompatActivity implements BottomNaviga
         switch (position) {
             case 0:
                 if (mstatic == null) {
-                    mstatic = there_static_state.newInstance();
+                    mstatic = there_contrast.newInstance();
                 }
                 transaction.replace(R.id.layout1, mstatic);
                 break;
             case 1:
                 if (mdynamic == null) {
-                    mdynamic = there_baidu.newInstance();
+                    mdynamic = there_enhance.newInstance();
                 }
                 transaction.replace(R.id.layout1, mdynamic);
                 break;

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".eight_javacamera">
+
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/javaCameraView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/btn_take3"
+        android:layout_width="@dimen/d75"
+        android:layout_height="@dimen/d75"
+        android:layout_marginBottom="@dimen/d20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/photo" />
+
+    <ImageView
+        android:id="@+id/btn_switch3"
+        android:layout_width="@dimen/d45"
+        android:layout_height="@dimen/d45"
+
+        app:layout_constraintBottom_toBottomOf="@+id/btn_take3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_take3"
+        app:layout_constraintTop_toTopOf="@+id/btn_take3"
+        app:srcCompat="@drawable/cut" />
+
+    <ImageView
+        android:id="@+id/fold"
+        android:layout_width="@dimen/d35"
+        android:layout_height="@dimen/d35"
+        android:layout_marginStart="@dimen/d8"
+        android:layout_marginTop="@dimen/d8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/returns" />
+
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/iv_show2"
+        android:layout_width="@dimen/d45"
+        android:layout_height="@dimen/d45"
+        android:layout_marginStart="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_take3"
+        app:layout_constraintEnd_toStartOf="@+id/btn_take3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_take3"
+        app:qmui_border_color="@color/white"
+        app:qmui_border_width="@dimen/d2"
+        app:qmui_is_circle="true"
+        app:qmui_is_oval="true"
+        app:qmui_selected_border_color="#ffffff"
+        app:qmui_selected_border_width="@dimen/d2"
+        app:qmui_selected_mask_color="@color/white" />
+</android.support.constraint.ConstraintLayout>

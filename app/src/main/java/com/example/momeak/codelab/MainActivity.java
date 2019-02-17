@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,11 +34,73 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements OnMenuItemClickListener{
+public class MainActivity extends AppCompatActivity implements OnMenuItemClickListener {
     @BindView(R.id.head)
     QMUIRadiusImageView head;
-    private int heigth;
-    private int width;
+    @BindView(R.id.back)
+    ImageView back;
+    @BindView(R.id.set)
+    ImageView set;
+    @BindView(R.id.textView)
+    TextView textView;
+    @BindView(R.id.ima_one)
+    ImageView imaOne;
+    @BindView(R.id.ima_one_im)
+    ImageView imaOneIm;
+    @BindView(R.id.ima_one_txt)
+    TextView imaOneTxt;
+    @BindView(R.id.ima_two)
+    ImageView imaTwo;
+    @BindView(R.id.ima_two_im)
+    ImageView imaTwoIm;
+    @BindView(R.id.ima_two_txt)
+    TextView imaTwoTxt;
+    @BindView(R.id.ima_there)
+    ImageView imaThere;
+    @BindView(R.id.ima_there_im)
+    ImageView imaThereIm;
+    @BindView(R.id.ima_there_txt)
+    TextView imaThereTxt;
+    @BindView(R.id.ima_four)
+    ImageView imaFour;
+    @BindView(R.id.ima_four_im)
+    ImageView imaFourIm;
+    @BindView(R.id.ima_four_txt)
+    TextView imaFourTxt;
+    @BindView(R.id.ima_five)
+    ImageView imaFive;
+    @BindView(R.id.ima_five_im)
+    ImageView imaFiveIm;
+    @BindView(R.id.ima_five_txt)
+    TextView imaFiveTxt;
+    @BindView(R.id.ima_six)
+    ImageView imaSix;
+    @BindView(R.id.ima_six_im)
+    ImageView imaSixIm;
+    @BindView(R.id.ima_six_txt)
+    TextView imaSixTxt;
+    @BindView(R.id.ima_seven)
+    ImageView imaSeven;
+    @BindView(R.id.ima_seven_im)
+    ImageView imaSevenIm;
+    @BindView(R.id.ima_seven_txt)
+    TextView imaSevenTxt;
+    @BindView(R.id.ima_eight)
+    ImageView imaEight;
+    @BindView(R.id.ima_eight_im)
+    ImageView imaEightIm;
+    @BindView(R.id.ima_eight_txt)
+    TextView imaEightTxt;
+    @BindView(R.id.ima_nine)
+    ImageView imaNine;
+    @BindView(R.id.ima_nine_im)
+    ImageView imaNineIm;
+    @BindView(R.id.ima_nine_txt)
+    TextView imaNineTxt;
+    @BindView(R.id.gridLayout)
+    GridLayout gridLayout;
+    @BindView(R.id.imageView)
+    ImageView imageView;
     private FragmentManager fragmentManager;
     private ContextMenuDialogFragment mMenuDialogFragment;
     protected String[] needPermissions = {
@@ -52,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
 
     };
     private static final int PERMISSION_REQUESTED = 0;
-
+    private SharedPreferencesHelper sharedPreferencesHelper;
     /**
      * 判断是否需要检测，防止不停的弹框
      */
@@ -61,29 +122,17 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
     static {
         System.loadLibrary("native-lib");
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        heigth = dm.heightPixels;
-        width = dm.widthPixels;
-        float density = dm.density;         // 屏幕密度（0.75 / 1.0 / 1.5）
-        int densityDpi = dm.densityDpi;     // 屏幕密度dpi（120 / 160 / 240）
-        int screenWidth = (int) (width / density);  // 屏幕宽度(dp)
-        int screenHeight = (int) (heigth / density);// 屏幕高度(dp)
         fragmentManager = getSupportFragmentManager();
         initMenuFragment();
-        File savePath = new File(getExternalFilesDir(null).getPath() + "/facestrat.jpg");
-        if (savePath.exists()) {
-            head.setImageURI(Uri.fromFile(savePath));
-        } else {
-
-        }
-
     }
+
     private void initMenuFragment() {
         MenuParams menuParams = new MenuParams();
         menuParams.setActionBarSize((int) getResources().getDimension(R.dimen.d60));
@@ -100,9 +149,6 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         MenuObject close = new MenuObject("取消选择");
         close.setResource(R.drawable.icn_close);
 
-        MenuObject addFr = new MenuObject("添加人脸数据");
-        addFr.setResource(R.drawable.icn_2);
-
         MenuObject check = new MenuObject("检查更新");
         check.setResource(R.drawable.icn_3);
 
@@ -113,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         addFrv.setResource(R.drawable.icn_5);
 
         menuObjects.add(close);
-        menuObjects.add(addFr);
         menuObjects.add(check);
         menuObjects.add(blocks);
         menuObjects.add(addFrv);
@@ -136,21 +181,17 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
             case 0:
                 break;
             case 1:
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, face.class);
-                startActivity(intent);
-                break;
-            case 2:
 
                 break;
-            case 3:
+            case 2:
                 showSimpleBottomSheetGrid();
                 break;
-            case 4:
+            case 3:
                 System.exit(0);
                 break;
         }
     }
+
     @OnClick({R.id.set, R.id.head, R.id.textView, R.id.ima_one, R.id.ima_one_im, R.id.ima_one_txt, R.id.ima_two, R.id.ima_two_im, R.id.ima_two_txt, R.id.ima_there, R.id.ima_there_im, R.id.ima_there_txt, R.id.ima_four, R.id.ima_four_im, R.id.ima_four_txt, R.id.ima_five, R.id.ima_five_im, R.id.ima_five_txt, R.id.ima_six, R.id.ima_six_im, R.id.ima_six_txt, R.id.ima_seven, R.id.ima_seven_im, R.id.ima_seven_txt, R.id.ima_eight, R.id.ima_eight_im, R.id.ima_eight_txt, R.id.ima_nine, R.id.ima_nine_im, R.id.ima_nine_txt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -182,13 +223,14 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
             case R.id.ima_four:
             case R.id.ima_four_im:
             case R.id.ima_four_txt:
-                Intent intent4 = new Intent(MainActivity.this, four_test.class);
+                Intent intent4 = new Intent(MainActivity.this, four_data.class);
                 startActivity(intent4);
                 break;
             case R.id.ima_five:
             case R.id.ima_five_im:
             case R.id.ima_five_txt:
-
+                Intent intent5 = new Intent(MainActivity.this, five_unlock.class);
+                startActivity(intent5);
                 break;
             case R.id.ima_six:
             case R.id.ima_six_im:
@@ -198,7 +240,8 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
             case R.id.ima_seven:
             case R.id.ima_seven_im:
             case R.id.ima_seven_txt:
-
+                Intent intent7 = new Intent(MainActivity.this, four_data.class);
+                startActivity(intent7);
                 break;
             case R.id.ima_eight:
             case R.id.ima_eight_im:
@@ -254,7 +297,22 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         if (isNeedCheck) {
             checkPermissions(needPermissions);
         }
+        File savePath = new File(getFilesDir().getAbsolutePath() + "00.jpg");
+        if (savePath.exists()) {
+            head.setImageURI(Uri.fromFile(savePath));
+            sharedPreferencesHelper = new SharedPreferencesHelper(MainActivity.this, "people");
+            String picture = "00.jpg";
+            String names = sharedPreferencesHelper.getSharedPreference(picture, "").toString().trim();
+            textView.setText(names);
+        } else {
+            Intent intent = new Intent(MainActivity.this, four_face.class);
+            intent.putExtra("id", 0);
+            intent.putExtra("add", 0);
+            startActivity(intent);
+        }
     }
+
+  
 
     /**
      * 检查权限
@@ -376,5 +434,6 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         }
         return super.onKeyDown(keyCode, event);
     }
+
     public native String stringFromJNI();
 }

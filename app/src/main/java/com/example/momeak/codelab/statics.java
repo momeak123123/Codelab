@@ -27,19 +27,26 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 
+import org.opencv.android.Utils;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static org.opencv.core.CvType.CV_8U;
+
 
 public class statics extends AppCompatActivity {
     private static final int ALBUM_REQUEST_CODE = 1;
@@ -105,171 +112,6 @@ public class statics extends AppCompatActivity {
         }
     }
 
-    //android FaceDetector人脸检测
-    private void detectFace(Bitmap bitmap) {
-        int numberOfFace = 12;
-        FaceDetector myFaceDetect;
-        int imageWidth = bitmap.getWidth();
-        int imageHeight = bitmap.getHeight();
-        myFace = new FaceDetector.Face[numberOfFace];
-        myFaceDetect = new FaceDetector(imageWidth, imageHeight, numberOfFace);
-        numberOfFaceDetected = myFaceDetect.findFaces(bitmap, myFace);
-        if (myFace == null) {
-            String txt;
-            txt = "图片未检测到人脸，请重新上传";
-            showMessagePositiveDialog(txt);
-
-        }
-
-    }
-    //人脸画框
-    private Bitmap drawFace(Bitmap bitmap) {
-        Canvas canvas = new Canvas(bitmap);
-        // canvas.drawBitmap(bitmap, 0, 0, null);
-        Paint myPaint = new Paint();
-        myPaint.setColor(Color.GREEN);
-        myPaint.setStyle(Paint.Style.STROKE);
-        myPaint.setStrokeWidth(3);
-        for (int i = 0; i < numberOfFaceDetected; i++) {
-            FaceDetector.Face face = myFace[i];
-            PointF myMidPoint = new PointF();
-            face.getMidPoint(myMidPoint);
-            float myEyesDistance = face.eyesDistance();
-            canvas.drawRect((int) (myMidPoint.x - myEyesDistance * 1.8),
-                    (int) (myMidPoint.y - myEyesDistance * 2.2),
-                    (int) (myMidPoint.x + myEyesDistance * 1.8),
-                    (int) (myMidPoint.y + myEyesDistance * 2.2), myPaint);
-        }
-        return bitmap;
-    }
-    //弹窗
-    private void showMessagePositiveDialog(String txt) {
-        int mCurrentDialogStyle = R.style.QMUI_Dialog;
-        new QMUIDialog.MessageDialogBuilder(this)
-                .setMessage(txt)
-                .addAction("确定", new QMUIDialogAction.ActionListener() {
-                    @Override
-                    public void onClick(QMUIDialog dialog, int index) {
-                        dialog.dismiss();
-                    }
-                })
-                .create(mCurrentDialogStyle).show();
-    }
-
-
-        /**
-         * 底片
-         *
-         * @param bitmap
-         * @return
-         */
-    public static Bitmap handleImagePix(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int r, g, b, a;
-        int[] imgPixels = new int[width * height];
-        int[] newImgPixels = new int[width * height];
-        bitmap.getPixels(imgPixels, 0, width, 0, 0, width, height);
-        for (int i = 0; i < imgPixels.length; i++) {
-            r = Color.red(imgPixels[i]);
-            g = Color.green(imgPixels[i]);
-            b = Color.blue(imgPixels[i]);
-            a = Color.alpha(imgPixels[i]);
-
-            r = limit(255 - r);
-            g = limit(255 - g);
-            b = limit(255 - b);
-
-            newImgPixels[i] = Color.argb(a, r, g, b);
-        }
-
-        Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        newBitmap.setPixels(newImgPixels, 0, width, 0, 0, width, height);
-        return newBitmap;
-    }
-    /**
-     * 限制argb取值范围
-     *
-     * @param value
-     * @return
-     */
-    public static int limit(int value) {
-        if (value > 255) {
-            return 255;
-        } else if (value < 0) {
-            return 0;
-        }
-        return value;
-    }
-
-
-
-    /**
-     * 怀旧
-     *
-     * @param bitmap
-     * @return
-     */
-    public static Bitmap handleImagePix2(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int r, g, b, a, newR, newG, newB;
-        int[] imgPixels = new int[width * height];
-        int[] newImgPixels = new int[width * height];
-        bitmap.getPixels(imgPixels, 0, width, 0, 0, width, height);
-        for (int i = 0; i < imgPixels.length; i++) {
-            r = Color.red(imgPixels[i]);
-            g = Color.green(imgPixels[i]);
-            b = Color.blue(imgPixels[i]);
-            a = Color.alpha(imgPixels[i]);
-
-            newR = limit((int) (0.393 * r + 0.769 * g + 0.189 * b));
-            newG = limit((int) (0.249 * r + 0.686 * g + 0.168 * b));
-            newB = limit((int) (0.272 * r + 0.534 * g + 0.131 * b));
-
-            newImgPixels[i] = Color.argb(a, newR, newG, newB);
-        }
-
-        Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        newBitmap.setPixels(newImgPixels, 0, width, 0, 0, width, height);
-        return newBitmap;
-    }
-
-    /**
-     * 浮雕
-     *
-     * @param bitmap
-     * @return
-     */
-    public static Bitmap handleImagePix3(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int r, g, b, a, cr, cg, cb;
-        int[] imgPixels = new int[width * height];
-        int[] newImgPixels = new int[width * height];
-        bitmap.getPixels(imgPixels, 0, width, 0, 0, width, height);
-        for (int i = 0; i < imgPixels.length - 1; i++) {
-            r = Color.red(imgPixels[i]);
-            g = Color.green(imgPixels[i]);
-            b = Color.blue(imgPixels[i]);
-            a = Color.alpha(imgPixels[i]);
-
-            cr = Color.red(imgPixels[i + 1]);
-            cg = Color.green(imgPixels[i + 1]);
-            cb = Color.blue(imgPixels[i + 1]);
-
-            r = limit(cr - r + 127);
-            g = limit(cg - g + 127);
-            b = limit(cb - b + 127);
-
-            newImgPixels[i] = Color.argb(a, r, g, b);
-        }
-
-        Bitmap newBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        newBitmap.setPixels(newImgPixels, 0, width, 0, 0, width, height);
-        return newBitmap;
-    }
-
     //显示列表浮层
     public void showListPopups(View v, int preferredDirection) {
 
@@ -284,9 +126,9 @@ public class statics extends AppCompatActivity {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         if (i == 0) {
-                          getPicFromCamera();
+                            getPicFromCamera();
                         } else {
-                          getPicFromAlbm();
+                            getPicFromAlbm();
                         }
                         mListPopup.dismiss();
                     }
@@ -317,27 +159,6 @@ public class statics extends AppCompatActivity {
         startActivityForResult(photoPickerIntent, ALBUM_REQUEST_CODE);
     }
 
-    /**
-     * 裁剪图片
-     */
-    private void cropPhoto(Uri uri) {
-        Intent intent = new Intent("com.android.camera.action.CROP");//发起剪切动作
-        intent.setDataAndType(uri, "image/*");//设置剪切图片的uri和类型
-        intent.putExtra("crop", "true");//剪切动作的信号
-        intent.putExtra("aspectX", 3);//x和y是否等比缩放
-        intent.putExtra("aspectY", 4);
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 400);//剪切后图片的尺寸
-        intent.putExtra("return-data", true);//是否把剪切后的图片通过data返回
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());//图片的输出格式
-        intent.putExtra("noFaceDetection", true);  //关闭面部识别
-
-        //设置剪切的图片保存位置
-        Uri cropUri = Uri.fromFile(new File(Environment.getExternalStorageDirectory().getPath() + "/zxy/image/crop.png"));
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, cropUri);
-        startActivityForResult(intent, CROP_REQUEST_CODE);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
@@ -346,24 +167,32 @@ public class statics extends AppCompatActivity {
                     //用相机返回的照片去调用剪裁也需要对Uri进行处理
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         Uri contentUri = Uri.fromFile(tempFile);
-                        cropPhoto(contentUri);
+                        try {
+                            headbit = Bitmap_compress.getBitmapFormUri(this, contentUri);
+                            head.setImageBitmap(headbit);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     } else {
-                        cropPhoto(Uri.fromFile(tempFile));
+                        try {
+                            headbit = Bitmap_compress.getBitmapFormUri(this, Uri.fromFile(tempFile));
+                            head.setImageBitmap(headbit);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
                     }
                 }
                 break;
             case ALBUM_REQUEST_CODE:    //调用相册后返回
                 if (resultCode == RESULT_OK) {
                     Uri uri = intent.getData();
-                    cropPhoto(uri);
-                }
-                break;
-            case CROP_REQUEST_CODE:     //调用剪裁后返回
-                Bundle bundle = intent.getExtras();
-                if (bundle != null) {
-                    //在这里获得了剪裁后的Bitmap对象，可以用于上传
-                    headbit = bundle.getParcelable("data");
-                    head.setImageBitmap(headbit);
+                    try {
+                        headbit = Bitmap_compress.getBitmapFormUri(this, uri);
+                        head.setImageBitmap(headbit);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
         }
@@ -397,44 +226,83 @@ public class statics extends AppCompatActivity {
                 this.finish();
                 break;
             case R.id.imageView11:
-                showListPopups(imageView11,1);
+                showListPopups(imageView11, 1);
                 break;
             case R.id.imageView12:
                 switch (id) {
-                    case 12:
-                        handleImagePix(headbit);
-                        headsbit = handleImagePix(headbit).copy(Bitmap.Config.RGB_565, true);
-                        heads.setImageBitmap(headsbit);
+                    case 2:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix(headbit));
                         break;
-                    case 13:
-                        handleImagePix2(headbit);
-                        headsbit = handleImagePix2(headbit).copy(Bitmap.Config.RGB_565, true);
-                        heads.setImageBitmap(headsbit);
+                    case 3:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix2(headbit));
                         break;
-                    case 14:
-                        handleImagePix3(headbit);
-                        headsbit = handleImagePix3(headbit).copy(Bitmap.Config.RGB_565, true);
-                        heads.setImageBitmap(headsbit);
+                    case 4:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix3(headbit));
                         break;
-                    case 20:
-                        headsbit = headbit.copy(Bitmap.Config.RGB_565, true);
-                        if (!headbit.isRecycled())
-                            headbit.recycle();
-                        detectFace(headsbit);
-                        drawFace(headsbit);
-                        heads.setImageBitmap(drawFace(headsbit));
+                    case 5:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix4(headbit));
+                        break;
+                    case 6:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix5(headbit));
+                        break;
+                    case 7:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix6(headbit));
+                        break;
+                    case 8:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix7(headbit));
+                        break;
+                    case 9:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix8(headbit));
+                        break;
+                    case 10:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix9(headbit));
+                        break;
+                    case 11:
+                        heads.setImageBitmap(Bitmap_dispose.handleImagePix10(headbit));
+                        break;
+                    case 30:
+                        heads.setImageBitmap(Bitmap_dispose.enhance(headbit));
+                        break;
+                    case 31:
+                        heads.setImageBitmap(Bitmap_dispose.enhance1(headbit));
+                        break;
+                    case 32:
+                        heads.setImageBitmap(Bitmap_dispose.enhance2(headbit));
+                        break;
+                    case 33:
+                        heads.setImageBitmap(Bitmap_dispose.enhance3(headbit));
+                        break;
+                    case 34:
+                        heads.setImageBitmap(Bitmap_dispose.enhance4(headbit));
+                        break;
+                    case 35:
+                        heads.setImageBitmap(Bitmap_dispose.enhance5(headbit));
+                        break;
+                    case 36:
+                        heads.setImageBitmap(Bitmap_dispose.enhance6(headbit));
+                        break;
+                    case 37:
+                        heads.setImageBitmap(Bitmap_dispose.enhance7(headbit));
+                        break;
+                    case 38:
+                        heads.setImageBitmap(Bitmap_dispose.enhance8(headbit));
+                        break;
+                    case 39:
+                        heads.setImageBitmap(Bitmap_dispose.enhance9(headbit));
+                        break;
+                    case 40:
+                        heads.setImageBitmap(Bitmap_dispose.enhance10(headbit));
                         break;
                 }
-
-
                 break;
             case R.id.imageView13:
-                SaveBitmap save = new SaveBitmap();
+                Bitmap_save save = new Bitmap_save();
                 save.saveBitmaps(headsbit);
                 Intent intents = new Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"));
                 startActivity(intents);
                 break;
         }
     }
+
 
 }

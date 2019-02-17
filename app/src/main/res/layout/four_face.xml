@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/advocate"
+    tools:context=".four_face">
+
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/javaCameraView2"
+        android:layout_width="@dimen/d300"
+        android:layout_height="@dimen/d300"
+        app:layout_constraintBottom_toTopOf="@+id/imb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView10" />
+
+    <ImageView
+        android:id="@+id/imb"
+        android:layout_width="@dimen/d300"
+        android:layout_height="@dimen/d50"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/d100"
+        android:background="@drawable/shape_view"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintBottom_toTopOf="@+id/but"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/head"
+        android:layout_width="@dimen/d250"
+        android:layout_height="@dimen/d250"
+        android:layout_marginTop="@dimen/d60"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:qmui_border_color="@color/coloronclice"
+        app:qmui_border_width="2dp"
+        app:qmui_is_circle="true"
+        app:qmui_is_oval="true"
+        app:qmui_selected_border_color="#ffffff"
+        app:qmui_selected_border_width="2dp"
+        app:qmui_selected_mask_color="@color/coloronclice" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="@dimen/d35"
+        android:layout_height="@dimen/d35"
+        android:layout_marginStart="@dimen/d4"
+        android:layout_marginTop="@dimen/d8"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/returns" />
+
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/d16"
+        android:text="添加人脸数据"
+        android:textColor="@color/qmui_config_color_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="点击下方更换照片"
+        android:textColor="@color/qmui_config_color_white"
+        android:textSize="@dimen/s14"
+        app:layout_constraintBottom_toTopOf="@+id/but"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imb" />
+
+
+    <ImageView
+        android:id="@+id/ok"
+        android:layout_width="@dimen/d30"
+        android:layout_height="@dimen/d35"
+        android:layout_marginTop="@dimen/d8"
+        android:layout_marginEnd="@dimen/d8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ok" />
+
+
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/but"
+        android:layout_width="@dimen/d65"
+        android:layout_height="@dimen/d65"
+        android:layout_marginBottom="@dimen/d100"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:qmui_is_circle="true"
+        app:qmui_is_oval="true"
+        app:qmui_selected_mask_color="@color/coloronclice"
+        app:srcCompat="@drawable/shoot" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="姓名"
+        android:textSize="@dimen/s16"
+        android:textColor="@color/advocate"
+        android:elevation="@dimen/d3"
+        android:translationZ="@dimen/d3"
+        app:layout_constraintBottom_toBottomOf="@+id/imb"
+        app:layout_constraintEnd_toEndOf="@+id/imb"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/imb"
+        app:layout_constraintTop_toTopOf="@+id/imb" />
+
+
+</android.support.constraint.ConstraintLayout>
