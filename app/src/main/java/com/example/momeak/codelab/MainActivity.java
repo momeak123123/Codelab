@@ -240,13 +240,12 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
             case R.id.ima_seven:
             case R.id.ima_seven_im:
             case R.id.ima_seven_txt:
-                Intent intent7 = new Intent(MainActivity.this, four_data.class);
-                startActivity(intent7);
+
                 break;
             case R.id.ima_eight:
             case R.id.ima_eight_im:
             case R.id.ima_eight_txt:
-                Intent intent8 = new Intent(MainActivity.this, eight_camera.class);
+                Intent intent8 = new Intent(MainActivity.this, eight_activity.class);
                 startActivity(intent8);
                 break;
             case R.id.ima_nine:

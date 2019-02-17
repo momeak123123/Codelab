@@ -4,8 +4,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
@@ -21,6 +25,22 @@ public class there_recognition extends AppCompatActivity implements BottomNaviga
 
     @BindView(R.id.txt)
     TextView txt;
+    @BindView(R.id.fold)
+    ImageView fold;
+    @BindView(R.id.view5)
+    View view5;
+    @BindView(R.id.headtxt)
+    TextView headtxt;
+    @BindView(R.id.headtxts)
+    TextView headtxts;
+    @BindView(R.id.switchtxt)
+    TextView switchtxt;
+    @BindView(R.id.switchs)
+    Switch switchs;
+    @BindView(R.id.navbar1)
+    BottomNavigationBar navbar1;
+    @BindView(R.id.layout1)
+    NestedScrollView layout1;
     private ArrayList<Fragment> fragments;
     private there_contrast mstatic;
     private there_enhance mdynamic;
@@ -32,6 +52,8 @@ public class there_recognition extends AppCompatActivity implements BottomNaviga
         setContentView(R.layout.activity_layout);
         ButterKnife.bind(this);
         txt.setText("算法");
+        switchs.setVisibility(View.GONE);
+        switchtxt.setVisibility(View.GONE);
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.navbar1);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
         bottomNavigationBar
@@ -52,6 +74,8 @@ public class there_recognition extends AppCompatActivity implements BottomNaviga
     private void setDefaultFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
+        headtxt.setText("图像对比");
+        headtxts.setText("基于android的图像相似度对比");
         mstatic = there_contrast.newInstance();
         transaction.replace(R.id.layout1, mstatic);
         transaction.commit();
@@ -68,12 +92,16 @@ public class there_recognition extends AppCompatActivity implements BottomNaviga
                     mstatic = there_contrast.newInstance();
                 }
                 transaction.replace(R.id.layout1, mstatic);
+                headtxt.setText("图像对比");
+                headtxts.setText("基于android的图像相似度对比");
                 break;
             case 1:
                 if (mdynamic == null) {
                     mdynamic = there_enhance.newInstance();
                 }
                 transaction.replace(R.id.layout1, mdynamic);
+                headtxt.setText("图像增强");
+                headtxts.setText("基于opencv的图像增强处理");
                 break;
             default:
                 break;

@@ -23,8 +23,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -47,12 +49,19 @@ import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -192,6 +201,8 @@ public class eight_camera extends AppCompatActivity {
             mCameraDevice = null;
         }
     };
+    private  File filePic;
+    private  String fileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,30 +210,30 @@ public class eight_camera extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.eight_camera);
         ButterKnife.bind(this);
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        ViewTreeObserver vto = tvCamera.getViewTreeObserver();
-        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                //手机宽高
-                DisplayMetrics dm = getResources().getDisplayMetrics();
-                int height = dm.heightPixels;
-                int width = dm.widthPixels;
-                double a = (double) width / 960;
-                double c = (double) 1740 * a;
-                ViewGroup.LayoutParams layoutParams = tvCamera.getLayoutParams();
-                //设置宽度
-                layoutParams.width = width;
-                //设置高度
-                layoutParams.height = (int)c;
-                tvCamera.setLayoutParams(layoutParams);
-            }
-        });
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+            ViewTreeObserver vto = tvCamera.getViewTreeObserver();
+            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    //手机宽高
+                    DisplayMetrics dm = getResources().getDisplayMetrics();
+                    int height = dm.heightPixels;
+                    int width = dm.widthPixels;
+                    double a = (double) width / 960;
+                    double c = (double) 1740 * a;
+                    ViewGroup.LayoutParams layoutParams = tvCamera.getLayoutParams();
+                    //设置宽度
+                    layoutParams.width = width;
+                    //设置高度
+                    layoutParams.height = (int)c;
+                    tvCamera.setLayoutParams(layoutParams);
+                }
+            });
         setTextureListener();
     }
 
@@ -636,10 +647,41 @@ public class eight_camera extends AppCompatActivity {
             //生成的翻转后的bitmap
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, m, true);
         }
-        Bitmap_save save = new Bitmap_save();
-        save.saveBitmaps(bitmap);
+        saveBitmaps(bitmap);
     }
-
+    public  void saveBitmaps(Bitmap bitmap) {
+        File appDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        try {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
+            fileName = "/IMG_" + timeStamp + ".jpg";
+            filePic = new File(appDir, fileName);
+            if (!filePic.exists()) {
+                filePic.getParentFile().mkdirs();
+                filePic.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(filePic);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        // 其次把文件插入到系统图库
+        String path = filePic.getAbsolutePath();
+        try {
+            MediaStore.Images.Media.insertImage(this.getContentResolver(), path, fileName, null);
+        } catch (
+                FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(filePic);
+        intent.setData(uri);
+        this.sendBroadcast(intent);
+    }
     @OnClick({R.id.btn_take, R.id.btn_switch, R.id.iv_show, R.id.btn_delay, R.id.imageView6})
     public void onViewClicked(View view) {
         switch (view.getId()) {

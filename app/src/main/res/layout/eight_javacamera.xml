@@ -22,43 +22,32 @@
         android:id="@+id/btn_take3"
         android:layout_width="@dimen/d75"
         android:layout_height="@dimen/d75"
-        android:layout_marginBottom="@dimen/d20"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/photo" />
-
-    <ImageView
-        android:id="@+id/btn_switch3"
-        android:layout_width="@dimen/d45"
-        android:layout_height="@dimen/d45"
-
-        app:layout_constraintBottom_toBottomOf="@+id/btn_take3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_take3"
-        app:layout_constraintTop_toTopOf="@+id/btn_take3"
-        app:srcCompat="@drawable/cut" />
 
     <ImageView
         android:id="@+id/fold"
         android:layout_width="@dimen/d35"
         android:layout_height="@dimen/d35"
-        android:layout_marginStart="@dimen/d8"
-        android:layout_marginTop="@dimen/d8"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/returns" />
 
     <com.qmuiteam.qmui.widget.QMUIRadiusImageView
         android:id="@+id/iv_show2"
         android:layout_width="@dimen/d45"
         android:layout_height="@dimen/d45"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_take3"
-        app:layout_constraintEnd_toStartOf="@+id/btn_take3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btn_take3"
+        app:layout_constraintBottom_toTopOf="@+id/btn_take3"
+        app:layout_constraintEnd_toEndOf="@+id/btn_take3"
+        app:layout_constraintStart_toStartOf="@+id/btn_take3"
+        app:layout_constraintTop_toTopOf="parent"
         app:qmui_border_color="@color/white"
         app:qmui_border_width="@dimen/d2"
         app:qmui_is_circle="true"

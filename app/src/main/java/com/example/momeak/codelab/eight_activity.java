@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class two_detection extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
+public class eight_activity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
 
     @BindView(R.id.fold)
     ImageView fold;
@@ -42,8 +42,7 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
     @BindView(R.id.layout1)
     NestedScrollView layout1;
     private ArrayList<Fragment> fragments;
-    private two_people mstatic;
-    private two_image mdynamic;
+    private eight_layout mstatic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +50,14 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
         getSupportActionBar().hide();
         setContentView(R.layout.activity_layout);
         ButterKnife.bind(this);
-        txt.setText("检测");
+        txt.setText("相机");
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.navbar1);
         bottomNavigationBar.setMode(BottomNavigationBar.MODE_SHIFTING);
         bottomNavigationBar
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC
                 );
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.people_detection, "人物检测").setActiveColorResource(R.color.coloronclice))
-                .addItem(new BottomNavigationItem(R.drawable.image_detection, "图像检测").setActiveColorResource(R.color.coloronclice))
+                .addItem(new BottomNavigationItem(R.drawable.camera, "相机").setActiveColorResource(R.color.coloronclice))
                 .setFirstSelectedPosition(0)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
@@ -72,9 +70,8 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
     private void setDefaultFragment() {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        mstatic = two_people.newInstance();
-        headtxt.setText("人物检测");
-        headtxts.setText("基于opencv的人物检测处理");
+        headtxt.setText("相机");
+        headtxts.setText("基于android以及opencv的相机");
         MyApp application = ((MyApp) this.getApplicationContext());
         if (application.getScore() == 0) {
             switchtxt.setText("摄像头状态:后置");
@@ -83,6 +80,7 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
             switchtxt.setText("摄像头状态:前置");
             switchs.setChecked(true);
         }
+        mstatic = eight_layout.newInstance();
         transaction.replace(R.id.layout1, mstatic);
         transaction.commit();
     }
@@ -92,26 +90,15 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
         Log.d("onTabSelected", "onTabSelected: " + position);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        MyApp application = ((MyApp) this.getApplicationContext());
         switch (position) {
             case 0:
-                headtxt.setText("人物检测");
-                headtxts.setText("基于opencv的人物检测处理");
-                if (application.getScore() == 0) {
-                    switchtxt.setText("摄像头状态:后置");
-                    switchs.setChecked(false);
-                } else {
-                    switchtxt.setText("摄像头状态:前置");
-                    switchs.setChecked(true);
-                }
                 if (mstatic == null) {
-                    mstatic = two_people.newInstance();
+                    mstatic = eight_layout.newInstance();
                 }
                 transaction.replace(R.id.layout1, mstatic);
-                break;
-            case 1:
-                headtxt.setText("图像检测");
-                headtxts.setText("基于opencv的图像检测处理");
+                headtxt.setText("相机");
+                headtxts.setText("基于android以及opencv的相机");
+                MyApp application = ((MyApp) this.getApplicationContext());
                 if (application.getScore() == 0) {
                     switchtxt.setText("摄像头状态:后置");
                     switchs.setChecked(false);
@@ -119,10 +106,6 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
                     switchtxt.setText("摄像头状态:前置");
                     switchs.setChecked(true);
                 }
-                if (mdynamic == null) {
-                    mdynamic = two_image.newInstance();
-                }
-                transaction.replace(R.id.layout1, mdynamic);
                 break;
             default:
                 break;
@@ -151,7 +134,6 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
 
     @OnClick({R.id.fold, R.id.switchs})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.fold:
                 this.finish();
@@ -168,4 +150,5 @@ public class two_detection extends AppCompatActivity implements BottomNavigation
                 break;
         }
     }
+
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <ImageView
         android:id="@+id/back"
         android:layout_width="0dp"
@@ -58,7 +59,8 @@
         android:id="@+id/gridLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/d16"
+        android:layout_marginStart="@dimen/d5"
+        android:layout_marginTop="@dimen/d10"
         app:columnCount="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,13 +73,15 @@
 
         <ImageView
             android:id="@+id/ima_one"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
-            android:layout_marginRight="@dimen/d3"
-            android:layout_marginBottom="@dimen/d3"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:layout_marginRight="@dimen/d5"
+            android:layout_marginBottom="@dimen/d5"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="0"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_one_im"
@@ -85,6 +89,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="0"
             app:srcCompat="@drawable/dispose" />
@@ -95,20 +101,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d53"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="处理"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="0" />
 
         <ImageView
             android:id="@+id/ima_two"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
-            android:layout_marginRight="@dimen/d3"
-            android:layout_marginBottom="@dimen/d3"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:layout_marginRight="@dimen/d5"
+            android:layout_marginBottom="@dimen/d5"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="0"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_two_im"
@@ -116,6 +126,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="0"
             app:srcCompat="@drawable/detection" />
@@ -126,18 +138,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d53"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="检测"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="0" />
 
         <ImageView
             android:id="@+id/ima_there"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="0"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_there_im"
@@ -145,6 +161,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="0"
             app:srcCompat="@drawable/recognition" />
@@ -155,20 +173,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d53"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="算法"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="0" />
 
         <ImageView
             android:id="@+id/ima_four"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
-            android:layout_marginRight="@dimen/d3"
-            android:layout_marginBottom="@dimen/d3"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:layout_marginRight="@dimen/d5"
+            android:layout_marginBottom="@dimen/d5"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="1"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_four_im"
@@ -176,6 +198,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="1"
             app:srcCompat="@drawable/data" />
@@ -186,20 +210,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d53"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="数据"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="1" />
 
         <ImageView
             android:id="@+id/ima_five"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
-            android:layout_marginRight="@dimen/d3"
-            android:layout_marginBottom="@dimen/d3"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:layout_marginRight="@dimen/d5"
+            android:layout_marginBottom="@dimen/d5"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="1"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_five_im"
@@ -207,6 +235,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="1"
             app:srcCompat="@drawable/authentication" />
@@ -217,18 +247,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d53"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="认证"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="1" />
 
         <ImageView
             android:id="@+id/ima_six"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="1"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_six_im"
@@ -236,6 +270,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="1"
             app:srcCompat="@drawable/extract" />
@@ -246,20 +282,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d53"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="提取"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="1" />
 
         <ImageView
             android:id="@+id/ima_seven"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
-            android:layout_marginRight="@dimen/d3"
-            android:layout_marginBottom="@dimen/d3"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:layout_marginRight="@dimen/d5"
+            android:layout_marginBottom="@dimen/d5"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="2"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_seven_im"
@@ -267,6 +307,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="2"
             app:srcCompat="@drawable/mini_program" />
@@ -277,20 +319,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d47"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="小程序"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="0"
             app:layout_row="2" />
 
         <ImageView
             android:id="@+id/ima_eight"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
-            android:layout_marginRight="@dimen/d3"
-            android:layout_marginBottom="@dimen/d3"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:layout_marginRight="@dimen/d5"
+            android:layout_marginBottom="@dimen/d5"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="2"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_eight_im"
@@ -298,6 +344,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="2"
             app:srcCompat="@drawable/photograph" />
@@ -308,18 +356,24 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d53"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="相机"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="1"
             app:layout_row="2" />
 
         <ImageView
             android:id="@+id/ima_nine"
-            android:layout_width="@dimen/d135"
-            android:layout_height="@dimen/d135"
+            android:layout_width="@dimen/d130"
+            android:layout_height="@dimen/d130"
+            android:layout_marginRight="@dimen/d3"
+            android:layout_marginBottom="@dimen/d3"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="2"
-            app:srcCompat="@android:color/background_light" />
+            app:srcCompat="@drawable/shape_radius" />
 
         <ImageView
             android:id="@+id/ima_nine_im"
@@ -327,6 +381,8 @@
             android:layout_height="@dimen/d45"
             android:layout_marginStart="@dimen/d45"
             android:layout_marginTop="@dimen/d30"
+            android:elevation="@dimen/d3"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="2"
             app:srcCompat="@drawable/codebase" />
@@ -337,23 +393,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/d47"
             android:layout_marginTop="@dimen/d85"
+            android:elevation="@dimen/d3"
             android:text="代码库"
             android:textSize="@dimen/s14"
+            android:translationZ="@dimen/d3"
             app:layout_column="2"
             app:layout_row="2" />
     </android.support.v7.widget.GridLayout>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/d30"
-        android:layout_marginStart="@dimen/d16"
-        android:layout_marginTop="@dimen/d8"
-        android:scaleType="fitStart"
-        app:layout_constraintEnd_toStartOf="@+id/set"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
 
 
 </android.support.constraint.ConstraintLayout>

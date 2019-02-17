@@ -41,6 +41,7 @@
         <activity android:name=".one_dispose" />
         <activity android:name=".two_detection" />
         <activity android:name=".there_recognition" />
+        <activity android:name=".eight_activity" />
         <activity android:name=".eight_camera" />
         <activity android:name=".MainActivity">
             <intent-filter>

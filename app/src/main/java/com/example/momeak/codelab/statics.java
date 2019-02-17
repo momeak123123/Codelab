@@ -24,6 +24,7 @@ import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 
@@ -36,10 +37,15 @@ import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -197,7 +203,39 @@ public class statics extends AppCompatActivity {
                 break;
         }
     }
-
+    public  void saveBitmaps(Bitmap bitmap) {
+        File appDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        try {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
+            fileName = "/IMG_" + timeStamp + ".jpg";
+            filePic = new File(appDir, fileName);
+            if (!filePic.exists()) {
+                filePic.getParentFile().mkdirs();
+                filePic.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(filePic);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        // 其次把文件插入到系统图库
+        String path = filePic.getAbsolutePath();
+        try {
+            MediaStore.Images.Media.insertImage(this.getContentResolver(), path, fileName, null);
+        } catch (
+                FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(filePic);
+        intent.setData(uri);
+        this.sendBroadcast(intent);
+    }
     @OnClick({R.id.head, R.id.heads, R.id.imageView11, R.id.imageView12, R.id.imageView13, R.id.close, R.id.fold2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -229,75 +267,112 @@ public class statics extends AppCompatActivity {
                 showListPopups(imageView11, 1);
                 break;
             case R.id.imageView12:
+                final QMUITipDialog tipDialog;
+                tipDialog = new QMUITipDialog.Builder(this)
+                        .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                        .setTipWord("正在加载")
+                        .create();
+                tipDialog.show();
                 switch (id) {
                     case 2:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix(headbit));
+                        headsbit = Bitmap_dispose.handleImagePix(headbit);
+                        heads.setImageBitmap(headsbit);
+                        tipDialog.dismiss();
                         break;
                     case 3:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix2(headbit));
+                        headsbit = Bitmap_dispose.handleImagePix2(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 4:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix3(headbit));
+                        headsbit = Bitmap_dispose.handleImagePix3(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 5:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix4(headbit));
+                        headsbit = Bitmap_dispose.handleImagePix4(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 6:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix5(headbit));
+                        headsbit = Bitmap_dispose.handleImagePix5(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 7:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix6(headbit));
+                        headsbit = Bitmap_dispose.handleImagePix6(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 8:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix7(headbit));
+                        headsbit = Bitmap_dispose.handleImagePix7(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 9:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix8(headbit));
-                        break;
-                    case 10:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix9(headbit));
-                        break;
-                    case 11:
-                        heads.setImageBitmap(Bitmap_dispose.handleImagePix10(headbit));
+                        headsbit = Bitmap_dispose.handleImagePix8(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 30:
-                        heads.setImageBitmap(Bitmap_dispose.enhance(headbit));
+                        headsbit = Bitmap_dispose.enhance(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 31:
-                        heads.setImageBitmap(Bitmap_dispose.enhance1(headbit));
+                        headsbit = Bitmap_dispose.enhance1(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 32:
-                        heads.setImageBitmap(Bitmap_dispose.enhance2(headbit));
+                        headsbit = Bitmap_dispose.enhance2(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 33:
-                        heads.setImageBitmap(Bitmap_dispose.enhance3(headbit));
+                        headsbit = Bitmap_dispose.enhance3(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 34:
-                        heads.setImageBitmap(Bitmap_dispose.enhance4(headbit));
+                        headsbit = Bitmap_dispose.enhance4(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 35:
-                        heads.setImageBitmap(Bitmap_dispose.enhance5(headbit));
+                        headsbit = Bitmap_dispose.enhance5(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 36:
-                        heads.setImageBitmap(Bitmap_dispose.enhance6(headbit));
+                        headsbit = Bitmap_dispose.enhance6(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 37:
-                        heads.setImageBitmap(Bitmap_dispose.enhance7(headbit));
+                        headsbit = Bitmap_dispose.enhance7(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 38:
-                        heads.setImageBitmap(Bitmap_dispose.enhance8(headbit));
+                        headsbit = Bitmap_dispose.enhance8(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 39:
-                        heads.setImageBitmap(Bitmap_dispose.enhance9(headbit));
+                        headsbit = Bitmap_dispose.enhance9(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                     case 40:
-                        heads.setImageBitmap(Bitmap_dispose.enhance10(headbit));
+                        headsbit = Bitmap_dispose.enhance10(headbit);
+                        heads.setImageBitmap(headsbit);
+                       tipDialog.dismiss();
                         break;
                 }
                 break;
             case R.id.imageView13:
-                Bitmap_save save = new Bitmap_save();
-                save.saveBitmaps(headsbit);
+                saveBitmaps(headsbit);
                 Intent intents = new Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"));
                 startActivity(intents);
                 break;

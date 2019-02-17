@@ -4,9 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +23,7 @@ import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.JavaCameraView;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
@@ -31,8 +37,14 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,24 +62,9 @@ public class eight_javacamera extends AppCompatActivity implements CameraBridgeV
     public static final int VIEW_MODE_POSTERIZE = 8;
     @BindView(R.id.btn_take3)
     ImageView btnTake3;
-    @BindView(R.id.btn_switch3)
-    ImageView btnSwitch3;
     @BindView(R.id.iv_show2)
     QMUIRadiusImageView ivShow2;
-    private Mat mMat0;
-    private MatOfInt mChannels[];
-    private MatOfInt mHistSize;
-    private int mHistSizeNum = 25;
-    private MatOfFloat mRanges;
-    private Scalar mColorsRGB[];
-    private Scalar mColorsHue[];
-    private Scalar mWhilte;
-    private Point mP1;
-    private Point mP2;
-    private float mBuff[];
-    private Size mSize0;
-    private Mat mSepiaKernel;
-    private Mat mIntermediateMat;
+    private static final int COMPLETED = 0;
     @BindView(R.id.javaCameraView)
     JavaCameraView javaCameraView;
     @BindView(R.id.fold)
@@ -82,7 +79,13 @@ public class eight_javacamera extends AppCompatActivity implements CameraBridgeV
     private InputStream is;
     private File mCascadeFile;
     private int id;
-    MyApp appState = ((MyApp) getApplicationContext());
+
+    private Mat image;
+    private Bitmap bitmaps;
+    private boolean bool = false;
+    private  File filePic;
+    private  String fileName;
+
     private void initializeOpenCVDependencies() {
         try {
             File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
@@ -119,6 +122,7 @@ public class eight_javacamera extends AppCompatActivity implements CameraBridgeV
         handler = new Handler();
         Intent intent = getIntent();
         id = (int) intent.getSerializableExtra("id");
+        MyApp appState = ((MyApp) getApplicationContext());
         s = appState.getScore();
         openCvCameraView = (CameraBridgeViewBase) findViewById(R.id.javaCameraView);
         openCvCameraView.setCameraIndex(s); //摄像头索引        -1/0：后置双摄     1：前置
@@ -158,12 +162,25 @@ public class eight_javacamera extends AppCompatActivity implements CameraBridgeV
             Core.flip(mGray, mGray, 1);
         }
 
-
         if (absoluteFaceSize == 0) {
             int heights = mGray.rows();
             if (Math.round(heights * 0.2f) > 0) {
                 absoluteFaceSize = Math.round(heights * 0.2f);
             }
+        }
+        if (bool == true) {
+            Thread t = new Thread() {
+                public void run() {
+                    bitmaps = Bitmap.createBitmap(mRgba.cols(), mRgba.rows(), Bitmap.Config.ARGB_8888);
+                    Utils.matToBitmap(mRgba, bitmaps);
+                    bool = false;
+                    Message msg = new Message();
+                    msg.what = COMPLETED;
+                    handlers.sendMessage(msg);
+
+                }
+            };
+            t.start();
         }
         //检测并显示
         MatOfRect faces = new MatOfRect();
@@ -179,19 +196,90 @@ public class eight_javacamera extends AppCompatActivity implements CameraBridgeV
         return mRgba;
     }
 
-    @OnClick({R.id.btn_take3, R.id.btn_switch3, R.id.fold, R.id.iv_show2})
+    private Handler handlers = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == COMPLETED) {
+                if (bitmaps != null) {
+                    saveBitmaps();
+                }
+            }
+        }
+    };
+
+    /**
+     * 保存图片任务
+     */
+    public void saveBitmaps() {
+        Bitmap bitmap;
+        if (s == 1) {
+            bitmap = createPhotos(bitmaps, 90);
+        } else {
+            bitmap = createPhotos(bitmaps, -90);
+            Matrix m = new Matrix();
+            m.setScale(-1, 1);//水平翻转
+            int w = bitmap.getWidth();
+            int h = bitmap.getHeight();
+            //生成的翻转后的bitmap
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, w, h, m, true);
+        }
+        ivShow2.setImageBitmap(Bitmap_compress.compressScaleBitmap(bitmap));
+        saveBitmaps(bitmap);
+    }
+    public  void saveBitmaps(Bitmap bitmap) {
+        File appDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        try {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
+            fileName = "/IMG_" + timeStamp + ".jpg";
+            filePic = new File(appDir, fileName);
+            if (!filePic.exists()) {
+                filePic.getParentFile().mkdirs();
+                filePic.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(filePic);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        // 其次把文件插入到系统图库
+        String path = filePic.getAbsolutePath();
+        try {
+            MediaStore.Images.Media.insertImage(this.getContentResolver(), path, fileName, null);
+        } catch (
+                FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        // 最后通知图库更新
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri uri = Uri.fromFile(filePic);
+        intent.setData(uri);
+        this.sendBroadcast(intent);
+    }
+    public static Bitmap createPhotos(Bitmap bitmap, int sum) {
+        if (bitmap != null) {
+            Matrix m = new Matrix();
+            try {
+                m.setRotate(sum, bitmap.getWidth() / 2, bitmap.getHeight() / 2);//90就是我们需要选择的90度
+                Bitmap bmp2 = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
+                bitmap.recycle();
+                bitmap = bmp2;
+            } catch (Exception ex) {
+                System.out.print("创建图片失败！" + ex);
+            }
+        }
+        return bitmap;
+    }
+
+    @OnClick({R.id.btn_take3, R.id.fold, R.id.iv_show2})
     public void onViewClicked(View view) {
+        MyApp appState = ((MyApp) getApplicationContext());
         switch (view.getId()) {
             case R.id.btn_take3:
-                break;
-            case R.id.btn_switch3:
-                if(s==0)
-                    appState.setScore(1);
-                else if(s==1)
-                    appState.setScore(0);
-                this.finish();
-                Intent intent8 = new Intent(eight_javacamera.this, eight_javacamera.class);
-                startActivity(intent8);
+                bool = true;
                 break;
             case R.id.fold:
                 this.finish();

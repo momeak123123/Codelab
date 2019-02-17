@@ -51,6 +51,8 @@ public class one_dispose extends AppCompatActivity implements BottomNavigationBa
         setContentView(R.layout.activity_layout);
         ButterKnife.bind(this);
         txt.setText("处理");
+        headtxt.setText("图像处理");
+        headtxts.setText("基于android原生的图像处理");
         switchs.setVisibility(View.GONE);
         switchtxt.setVisibility(View.GONE);
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.navbar1);
@@ -88,8 +90,7 @@ public class one_dispose extends AppCompatActivity implements BottomNavigationBa
                     mstatic1 = one_picture.newInstance();
                 }
                 transaction.replace(R.id.layout1, mstatic1);
-                headtxt.setText("图像处理");
-                headtxts.setText("基于android原生的图像处理");
+
                 break;
             default:
                 break;

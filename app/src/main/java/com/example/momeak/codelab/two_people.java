@@ -158,9 +158,9 @@ public class two_people extends Fragment {
 
         imbtxt1.setText("动态灰度图");
         imbtxt2.setText("动态直方图");
-        imbtxt3.setText("动态Canny边缘检测");
-        imbtxt4.setText("动态色调变换");
-        imbtxt5.setText("动态Sobel边缘检测");
+        imbtxt3.setText("动态Canny边缘");
+        imbtxt4.setText("动态Sobel边缘");
+        imbtxt5.setText("动态色调变换");
         imbtxt6.setText("动态放大镜");
         imbtxt7.setText("动态像素化");
         imbtxt8.setText("动态多色调分色印");
@@ -255,7 +255,7 @@ public class two_people extends Fragment {
                 startActivity(intent2);
                 break;
             case R.id.imb1:
-                Intent intent1 = new Intent(getContext(), one_processing.class);
+                Intent intent1 = new Intent(getContext(), two_javacamera.class);
                 intent1.putExtra("id", 15);
                 startActivity(intent1);
                 break;

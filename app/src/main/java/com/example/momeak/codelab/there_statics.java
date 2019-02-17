@@ -21,6 +21,7 @@ import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
+import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 
@@ -269,21 +270,30 @@ public class there_statics extends AppCompatActivity {
                 break;
             case R.id.imageView13:
                 DecimalFormat df = new DecimalFormat(RESULT_FORMAT);
+                final QMUITipDialog tipDialog;
+                tipDialog = new QMUITipDialog.Builder(this)
+                        .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                        .setTipWord("正在加载")
+                        .create();
+                tipDialog.show();
                 switch (id) {
                     case 1:
                         sum=Bitmap_dispose.similarity(headbit, headsbit);
                         results = df.format(sum);
                         similarity.setText("相似度为： " + results);
+                        tipDialog.dismiss();
                         break;
                     case 2:
                         sum=Bitmap_dispose.hist(headbit, headsbit);
                         results = df.format(sum);
                         similarity.setText("相似度为： " + results);
+                        tipDialog.dismiss();
                         break;
                     case 3:
                         sum=Bitmap_dispose.similar(headbit, headsbit);
                         results = df.format(1 / (sum + 1));
                         similarity.setText("相似度为： " + results);
+                        tipDialog.dismiss();
                         break;
                     case 4:
                         sum = Bitmap_dispose.shae(headbit, headsbit);
@@ -293,6 +303,7 @@ public class there_statics extends AppCompatActivity {
                             results = df.format(0);
                         }
                         similarity.setText("相似度为： " + results);
+                        tipDialog.dismiss();
                         break;
                     case 5:
 
