@@ -130,6 +130,8 @@ public class eight_javacamera extends AppCompatActivity implements CameraBridgeV
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
+
+
     }
 
     @Override
@@ -139,6 +141,7 @@ public class eight_javacamera extends AppCompatActivity implements CameraBridgeV
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
         }
         initializeOpenCVDependencies();
+
     }
 
     @Override
@@ -214,10 +217,10 @@ public class eight_javacamera extends AppCompatActivity implements CameraBridgeV
         Bitmap bitmap;
         if (s == 1) {
             bitmap = createPhotos(bitmaps, 90);
-        } else {
+        }else {
             bitmap = createPhotos(bitmaps, -90);
-            Matrix m = new Matrix();
-            m.setScale(-1, 1);//水平翻转
+           Matrix m = new Matrix();
+            m.setScale(-1, -1);//水平翻转
             int w = bitmap.getWidth();
             int h = bitmap.getHeight();
             //生成的翻转后的bitmap

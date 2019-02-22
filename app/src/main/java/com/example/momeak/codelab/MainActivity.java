@@ -99,8 +99,6 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
     TextView imaNineTxt;
     @BindView(R.id.gridLayout)
     GridLayout gridLayout;
-    @BindView(R.id.imageView)
-    ImageView imageView;
     private FragmentManager fragmentManager;
     private ContextMenuDialogFragment mMenuDialogFragment;
     protected String[] needPermissions = {
@@ -192,15 +190,17 @@ public class MainActivity extends AppCompatActivity implements OnMenuItemClickLi
         }
     }
 
-    @OnClick({R.id.set, R.id.head, R.id.textView, R.id.ima_one, R.id.ima_one_im, R.id.ima_one_txt, R.id.ima_two, R.id.ima_two_im, R.id.ima_two_txt, R.id.ima_there, R.id.ima_there_im, R.id.ima_there_txt, R.id.ima_four, R.id.ima_four_im, R.id.ima_four_txt, R.id.ima_five, R.id.ima_five_im, R.id.ima_five_txt, R.id.ima_six, R.id.ima_six_im, R.id.ima_six_txt, R.id.ima_seven, R.id.ima_seven_im, R.id.ima_seven_txt, R.id.ima_eight, R.id.ima_eight_im, R.id.ima_eight_txt, R.id.ima_nine, R.id.ima_nine_im, R.id.ima_nine_txt})
+    @OnClick({R.id.set, R.id.head, R.id.ima_one, R.id.ima_one_im, R.id.ima_one_txt, R.id.ima_two, R.id.ima_two_im, R.id.ima_two_txt, R.id.ima_there, R.id.ima_there_im, R.id.ima_there_txt, R.id.ima_four, R.id.ima_four_im, R.id.ima_four_txt, R.id.ima_five, R.id.ima_five_im, R.id.ima_five_txt, R.id.ima_six, R.id.ima_six_im, R.id.ima_six_txt, R.id.ima_seven, R.id.ima_seven_im, R.id.ima_seven_txt, R.id.ima_eight, R.id.ima_eight_im, R.id.ima_eight_txt, R.id.ima_nine, R.id.ima_nine_im, R.id.ima_nine_txt})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.set:
                 mMenuDialogFragment.show(fragmentManager, ContextMenuDialogFragment.TAG);
                 break;
             case R.id.head:
-            case R.id.textView:
-
+                Intent intent = new Intent(MainActivity.this, four_face.class);
+                intent.putExtra("id", 0);
+                intent.putExtra("add", 1);
+                startActivity(intent);
                 break;
             case R.id.ima_one:
             case R.id.ima_one_im:

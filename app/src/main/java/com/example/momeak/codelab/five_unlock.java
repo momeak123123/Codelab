@@ -104,6 +104,7 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
     private int datas;
     private boolean pan = false;
     private Bitmap bitmapt;
+    private Mat image;
 
     private void initializeOpenCVDependencies() {
         try {
@@ -193,7 +194,7 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
         //检测并显示
         MatOfRect faces = new MatOfRect();
         if (cascadeClassifier != null) {
-            cascadeClassifier.detectMultiScale(mGray, faces, 1.1, 10, 1, new Size(absoluteFaceSize, absoluteFaceSize), new Size());
+            cascadeClassifier.detectMultiScale(mGray, faces, 1.1, 9, 1, new Size(absoluteFaceSize, absoluteFaceSize), new Size());
         }
         facesArray = faces.toArray();
         if (facesArray.length > 0) {
@@ -261,14 +262,25 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
                 if (sumt > 0.8) {
                     if (sumt < 0.85) {
                         Bitmap_save save = new Bitmap_save();
-                        save.saveBitmaps(bitmaps, pic[ddlt]);
+                        if(bitmaps!=null)
+                        {
+                            save.saveBitmaps(bitmaps, pic[ddlt]);
+
+                        }
+                        else
+                        {
+                            test1.setText("点击重新识别");
+                            textView3.setText("相似度：" + one + "\n识别率过低，无法识别，请确保此人信息已录入");
+                        }
                     }
                     head3.setImageBitmap(bitmaps);
                     name = ddl + "0.jpg";
                     String names = sharedPreferencesHelper.getSharedPreference(name, "").toString().trim();
                     test1.setText(names);
                     textView3.setText("相似度：" + one + "\n点击姓名重新识别");
+
                 } else {
+                    head3.setImageBitmap(bitmaps);
                     test1.setText("点击重新识别");
                     textView3.setText("相似度：" + one + "\n识别率过低，无法识别，请确保此人信息已录入");
                 }

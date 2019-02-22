@@ -111,7 +111,7 @@ public class two_image extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_layouts, container, false);
         unbinder = ButterKnife.bind(this, view);
-    /*  switchs.setVisibility(View.GONE);
+   /*  switchs.setVisibility(View.GONE);
         switchtxt.setVisibility(View.GONE);
         imb1.setVisibility(View.GONE);
         ima1.setVisibility(View.GONE);
@@ -127,7 +127,7 @@ public class two_image extends Fragment {
         imbtxt4.setVisibility(View.GONE);
         imb5.setVisibility(View.GONE);
         ima5.setVisibility(View.GONE);
-        imbtxt5.setVisibility(View.GONE);*/
+        imbtxt5.setVisibility(View.GONE);
         imb6.setVisibility(View.GONE);
         ima6.setVisibility(View.GONE);
         imbtxt6.setVisibility(View.GONE);
@@ -136,7 +136,7 @@ public class two_image extends Fragment {
         imbtxt7.setVisibility(View.GONE);
         imb8.setVisibility(View.GONE);
         ima8.setVisibility(View.GONE);
-        imbtxt8.setVisibility(View.GONE);
+        imbtxt8.setVisibility(View.GONE);*/
         imb9.setVisibility(View.GONE);
         ima9.setVisibility(View.GONE);
         imbtxt9.setVisibility(View.GONE);
@@ -156,11 +156,14 @@ public class two_image extends Fragment {
         ima14.setVisibility(View.GONE);
         imbtxt14.setVisibility(View.GONE);
 
-        imbtxt1.setText("动态人脸检测");
-        imbtxt2.setText("动态眼睛检测");
-        imbtxt3.setText("动态上半身检测");
-        imbtxt4.setText("动态下半身检测");
-        imbtxt5.setText("动态行人检测");
+        imbtxt1.setText("动态灰度图");
+        imbtxt2.setText("动态直方图");
+        imbtxt3.setText("动态Canny边缘");
+        imbtxt4.setText("动态Sobel边缘");
+        imbtxt5.setText("动态色调变换");
+        imbtxt6.setText("动态放大镜");
+        imbtxt7.setText("动态像素化");
+        imbtxt8.setText("动态多色调分色印");
         return view;
     }
 
@@ -187,72 +190,72 @@ public class two_image extends Fragment {
         switch (view.getId()) {
             case R.id.imb14:
                 Intent intent14 = new Intent(getContext(), two_javacamera.class);
-                intent14.putExtra("id", 14);
+                intent14.putExtra("id", 28);
                 startActivity(intent14);
                 break;
             case R.id.imb13:
                 Intent intent13 = new Intent(getContext(), two_javacamera.class);
-                intent13.putExtra("id", 13);
+                intent13.putExtra("id", 27);
                 startActivity(intent13);
                 break;
             case R.id.imb12:
                 Intent intent12 = new Intent(getContext(), two_javacamera.class);
-                intent12.putExtra("id", 12);
+                intent12.putExtra("id", 26);
                 startActivity(intent12);
                 break;
             case R.id.imb11:
                 Intent intent11 = new Intent(getContext(), two_javacamera.class);
-                intent11.putExtra("id", 11);
+                intent11.putExtra("id", 25);
                 startActivity(intent11);
                 break;
             case R.id.imb10:
                 Intent intent10 = new Intent(getContext(), two_javacamera.class);
-                intent10.putExtra("id", 10);
+                intent10.putExtra("id", 24);
                 startActivity(intent10);
                 break;
             case R.id.imb9:
                 Intent intent9 = new Intent(getContext(), two_javacamera.class);
-                intent9.putExtra("id", 9);
+                intent9.putExtra("id", 23);
                 startActivity(intent9);
                 break;
             case R.id.imb8:
                 Intent intent8 = new Intent(getContext(), two_javacamera.class);
-                intent8.putExtra("id", 8);
+                intent8.putExtra("id", 22);
                 startActivity(intent8);
                 break;
             case R.id.imb7:
                 Intent intent7 = new Intent(getContext(), two_javacamera.class);
-                intent7.putExtra("id", 7);
+                intent7.putExtra("id", 21);
                 startActivity(intent7);
                 break;
             case R.id.imb6:
                 Intent intent6 = new Intent(getContext(), two_javacamera.class);
-                intent6.putExtra("id", 6);
+                intent6.putExtra("id", 20);
                 startActivity(intent6);
                 break;
             case R.id.imb5:
                 Intent intent5 = new Intent(getContext(), two_javacamera.class);
-                intent5.putExtra("id", 5);
+                intent5.putExtra("id", 19);
                 startActivity(intent5);
                 break;
             case R.id.imb4:
                 Intent intent4 = new Intent(getContext(), two_javacamera.class);
-                intent4.putExtra("id", 4);
+                intent4.putExtra("id", 18);
                 startActivity(intent4);
                 break;
             case R.id.imb3:
                 Intent intent3 = new Intent(getContext(), two_javacamera.class);
-                intent3.putExtra("id", 3);
+                intent3.putExtra("id", 17);
                 startActivity(intent3);
                 break;
             case R.id.imb2:
                 Intent intent2 = new Intent(getContext(), two_javacamera.class);
-                intent2.putExtra("id", 2);
+                intent2.putExtra("id", 16);
                 startActivity(intent2);
                 break;
             case R.id.imb1:
                 Intent intent1 = new Intent(getContext(), two_javacamera.class);
-                intent1.putExtra("id", 1);
+                intent1.putExtra("id", 15);
                 startActivity(intent1);
                 break;
 

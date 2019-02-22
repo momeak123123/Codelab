@@ -97,7 +97,7 @@
     <com.ashokvarma.bottomnavigation.BottomNavigationBar
         android:id="@+id/navbar1"
         android:layout_width="0dp"
-        android:layout_height="@dimen/d70"
+        android:layout_height="@dimen/d60"
         android:layout_gravity="bottom"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
