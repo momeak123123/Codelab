@@ -47,6 +47,5 @@ dependencies {
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
     implementation 'com.github.Yalantis:Context-Menu.Android:1.0.8'
-    implementation project(':openCVLibrary344')
-
+    implementation project(':openCVLibrary341')
 }

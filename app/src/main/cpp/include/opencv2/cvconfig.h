@@ -49,13 +49,13 @@
 /* C= */
 /* #undef HAVE_CSTRIPES */
 
-/* NVIDIA CUDA Basic Linear Algebra Subprograms (BLAS) API*/
+/* NVidia Cuda Basic Linear Algebra Subprograms (BLAS) API*/
 /* #undef HAVE_CUBLAS */
 
-/* NVIDIA CUDA Runtime API*/
+/* NVidia Cuda Runtime API*/
 /* #undef HAVE_CUDA */
 
-/* NVIDIA CUDA Fast Fourier Transform (FFT) API*/
+/* NVidia Cuda Fast Fourier Transform (FFT) API*/
 /* #undef HAVE_CUFFT */
 
 /* IEEE1394 capturing support */
@@ -105,7 +105,9 @@
 /* #undef HAVE_IPP */
 /* #undef HAVE_IPP_ICV */
 /* #undef HAVE_IPP_IW */
-/* #undef HAVE_IPP_IW_LL */
+
+/* Intel IPP Async */
+/* #undef HAVE_IPP_A */
 
 /* JPEG-2000 codec */
 #define HAVE_JASPER
@@ -125,10 +127,10 @@
 /* Microsoft Media Foundation Capture library */
 /* #undef HAVE_MSMF */
 
-/* NVIDIA Video Decoding API*/
+/* NVidia Video Decoding API*/
 /* #undef HAVE_NVCUVID */
 
-/* NVIDIA Video Encoding API*/
+/* NVidia Video Encoding API*/
 /* #undef HAVE_NVCUVENC */
 
 /* OpenCL Support */
@@ -242,7 +244,5 @@
 /* OpenCV trace utilities */
 #define OPENCV_TRACE
 
-/* Library QR-code decoding */
-#define HAVE_QUIRC
 
 #endif // OPENCV_CVCONFIG_H_INCLUDED
