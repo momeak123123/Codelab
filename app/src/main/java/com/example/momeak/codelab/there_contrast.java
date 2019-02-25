@@ -129,7 +129,7 @@ public class there_contrast extends Fragment {
         imbtxt5.setVisibility(View.GONE);
         imb6.setVisibility(View.GONE);
         ima6.setVisibility(View.GONE);
-        imbtxt6.setVisibility(View.GONE);*/
+        imbtxt6.setVisibility(View.GONE);
         imb7.setVisibility(View.GONE);
         ima7.setVisibility(View.GONE);
         imbtxt7.setVisibility(View.GONE);
@@ -147,7 +147,7 @@ public class there_contrast extends Fragment {
         imbtxt11.setVisibility(View.GONE);
         imb12.setVisibility(View.GONE);
         ima12.setVisibility(View.GONE);
-        imbtxt12.setVisibility(View.GONE);
+        imbtxt12.setVisibility(View.GONE);*/
         imb13.setVisibility(View.GONE);
         ima13.setVisibility(View.GONE);
         imbtxt13.setVisibility(View.GONE);
@@ -160,7 +160,7 @@ public class there_contrast extends Fragment {
         imbtxt3.setText("欧氏距离对比");
         imbtxt4.setText("均值Hash算法对比");
         imbtxt5.setText("pHash算法对比");
-        imbtxt6.setText("SIFT算法对比");
+
         return view;
     }
 

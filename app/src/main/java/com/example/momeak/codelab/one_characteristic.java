@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class there_enhance extends Fragment {
+public class one_characteristic extends Fragment {
     Unbinder unbinder;
     @BindView(R.id.imb14)
     ImageButton imb14;
@@ -111,7 +111,7 @@ public class there_enhance extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_layouts, container, false);
         unbinder = ButterKnife.bind(this, view);
-    /*  switchs.setVisibility(View.GONE);
+   /*  switchs.setVisibility(View.GONE);
         switchtxt.setVisibility(View.GONE);
         imb1.setVisibility(View.GONE);
         ima1.setVisibility(View.GONE);
@@ -142,10 +142,10 @@ public class there_enhance extends Fragment {
         imbtxt9.setVisibility(View.GONE);
         imb10.setVisibility(View.GONE);
         ima10.setVisibility(View.GONE);
-        imbtxt10.setVisibility(View.GONE);
+        imbtxt10.setVisibility(View.GONE);*/
         imb11.setVisibility(View.GONE);
         ima11.setVisibility(View.GONE);
-        imbtxt11.setVisibility(View.GONE);*/
+        imbtxt11.setVisibility(View.GONE);
         imb12.setVisibility(View.GONE);
         ima12.setVisibility(View.GONE);
         imbtxt12.setVisibility(View.GONE);
@@ -156,29 +156,27 @@ public class there_enhance extends Fragment {
         ima14.setVisibility(View.GONE);
         imbtxt14.setVisibility(View.GONE);
 
-        imbtxt1.setText("灰度化");
-        imbtxt2.setText("直方图均衡化");
-        imbtxt3.setText("二值化");
-        imbtxt4.setText("Canny处理");
-        imbtxt5.setText("Sobel处理");
-        imbtxt6.setText("拉普拉斯算子");
-        imbtxt7.setText("平滑处理");
-        imbtxt8.setText("均值滤波");
-        imbtxt9.setText("中值滤波");
-        imbtxt10.setText("高斯差分边缘检测");
-        imbtxt11.setText("轮廓检测");
+        imbtxt1.setText("FAST特征");
+        imbtxt2.setText("STAR特征");
+        imbtxt3.setText("SIFT特征");
+        imbtxt4.setText("SURF特征");
+        imbtxt5.setText("ORB特征");
+        imbtxt6.setText("BRIEF特征");
+        imbtxt7.setText("BRISK特征");
+        imbtxt8.setText("FREAK特征");
+        imbtxt9.setText("Harris角点");
+        imbtxt10.setText("Shi-Tomasi角点");
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
-    public static there_enhance newInstance() {
+    public static one_characteristic newInstance() {
         Bundle args = new Bundle();
-        there_enhance fragment = new there_enhance();
+        one_characteristic fragment = new one_characteristic();
         fragment.setArguments(args);
         return fragment;
     }
@@ -194,75 +192,76 @@ public class there_enhance extends Fragment {
         switch (view.getId()) {
             case R.id.imb14:
                 Intent intent14 = new Intent(getContext(), statics.class);
-                intent14.putExtra("id", 43);
+                intent14.putExtra("id", 28);
                 startActivity(intent14);
                 break;
             case R.id.imb13:
                 Intent intent13 = new Intent(getContext(), statics.class);
-                intent13.putExtra("id", 42);
+                intent13.putExtra("id", 27);
                 startActivity(intent13);
                 break;
             case R.id.imb12:
                 Intent intent12 = new Intent(getContext(), statics.class);
-                intent12.putExtra("id", 41);
+                intent12.putExtra("id", 26);
                 startActivity(intent12);
                 break;
             case R.id.imb11:
                 Intent intent11 = new Intent(getContext(), statics.class);
-                intent11.putExtra("id", 40);
+                intent11.putExtra("id", 25);
                 startActivity(intent11);
                 break;
             case R.id.imb10:
                 Intent intent10 = new Intent(getContext(), statics.class);
-                intent10.putExtra("id", 39);
+                intent10.putExtra("id", 24);
                 startActivity(intent10);
                 break;
             case R.id.imb9:
                 Intent intent9 = new Intent(getContext(), statics.class);
-                intent9.putExtra("id", 38);
+                intent9.putExtra("id", 23);
                 startActivity(intent9);
                 break;
             case R.id.imb8:
                 Intent intent8 = new Intent(getContext(), statics.class);
-                intent8.putExtra("id", 37);
+                intent8.putExtra("id", 22);
                 startActivity(intent8);
                 break;
             case R.id.imb7:
                 Intent intent7 = new Intent(getContext(), statics.class);
-                intent7.putExtra("id", 36);
+                intent7.putExtra("id", 21);
                 startActivity(intent7);
                 break;
             case R.id.imb6:
                 Intent intent6 = new Intent(getContext(), statics.class);
-                intent6.putExtra("id", 35);
+                intent6.putExtra("id", 20);
                 startActivity(intent6);
                 break;
             case R.id.imb5:
                 Intent intent5 = new Intent(getContext(), statics.class);
-                intent5.putExtra("id", 34);
+                intent5.putExtra("id", 19);
                 startActivity(intent5);
                 break;
             case R.id.imb4:
                 Intent intent4 = new Intent(getContext(), statics.class);
-                intent4.putExtra("id", 33);
+                intent4.putExtra("id", 18);
                 startActivity(intent4);
                 break;
             case R.id.imb3:
                 Intent intent3 = new Intent(getContext(), statics.class);
-                intent3.putExtra("id", 32);
+                intent3.putExtra("id", 17);
                 startActivity(intent3);
                 break;
             case R.id.imb2:
                 Intent intent2 = new Intent(getContext(), statics.class);
-                intent2.putExtra("id", 31);
+                intent2.putExtra("id", 16);
                 startActivity(intent2);
                 break;
             case R.id.imb1:
                 Intent intent1 = new Intent(getContext(), statics.class);
-                intent1.putExtra("id", 30);
+                intent1.putExtra("id", 15);
                 startActivity(intent1);
                 break;
 
         }
     }
 }
+

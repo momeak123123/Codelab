@@ -194,7 +194,7 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
         //检测并显示
         MatOfRect faces = new MatOfRect();
         if (cascadeClassifier != null) {
-            cascadeClassifier.detectMultiScale(mGray, faces, 1.1, 9, 1, new Size(absoluteFaceSize, absoluteFaceSize), new Size());
+            cascadeClassifier.detectMultiScale(mGray, faces, 1.1, 8, 1, new Size(absoluteFaceSize, absoluteFaceSize), new Size());
         }
         facesArray = faces.toArray();
         if (facesArray.length > 0) {
@@ -231,7 +231,19 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
                 String[] pic = {i + "0.jpg", i + "1.jpg", i + "2.jpg", i + "3.jpg", i + "4.jpg", i + "5.jpg", i + "6.jpg", i + "7.jpg", i + "8.jpg", i + "9.jpg"};
                 imageView3.setVisibility(View.GONE);
                 javaCameraView.setVisibility(View.GONE);
-                bitmapt = Bitmap_face.drawFace(bitmaps);
+                if (pan == true) {
+                    try {
+                        bitmapt = bitmaps;
+                    } catch (Exception e) {
+                    }
+                } else {
+                    try {
+                        bitmapt = Bitmap_face.drawFace(bitmaps);
+                    } catch (Exception e) {
+                    }
+                }
+
+                //检测那个人的相似度更高
                 for (i = 0; i < datas; i++) {
                     String picture = i + "0.jpg";
                     sums = facehist(picture);
@@ -240,6 +252,7 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
                         sum = sums;
                     }
                 }
+                //检测相似度高的那个人有几个保存的照片
                 sumt = sums;
                 for (int j = 1; j < 10; j++) {
                     File file = new File(getFilesDir().getAbsolutePath() + pic[j]);
@@ -248,10 +261,10 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
                         break;
                     }
                 }
+                //与相似度最高的人的每张照片进行对比
                 for (int j = 0; j < ddlt; j++) {
                     sums = facehist(pic[j]);
                     if (sums > sumt) {
-                        ddls = j;
                         sumt = sums;
                     }
                 }
@@ -261,14 +274,9 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
 
                 if (sumt > 0.8) {
                     if (sumt < 0.85) {
-                        Bitmap_save save = new Bitmap_save();
-                        if(bitmaps!=null)
-                        {
-                            save.saveBitmaps(bitmaps, pic[ddlt]);
-
-                        }
-                        else
-                        {
+                        if (bitmaps != null) {
+                            saveBitmaps(bitmaps, pic[ddlt]);
+                        } else {
                             test1.setText("点击重新识别");
                             textView3.setText("相似度：" + one + "\n识别率过低，无法识别，请确保此人信息已录入");
                         }
@@ -288,6 +296,23 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
         }
     };
 
+    public void saveBitmaps(Bitmap bitmap, String string) {
+        appDir = getFilesDir().getAbsolutePath() + string;
+        try {
+            filePic = new File(appDir);
+            if (!filePic.exists()) {
+                filePic.getParentFile().mkdirs();
+                filePic.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(filePic);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Double facehist(String picture) {
         File file = new File(getFilesDir().getAbsolutePath() + picture);
         if (file.exists() && file.isFile()) {
@@ -295,7 +320,7 @@ public class five_unlock extends AppCompatActivity implements CameraBridgeViewBa
             if (pan == true) {
                 try {
                     bitmap = bitmapa;
-                    sums = Bitmap_dispose.hist(bitmap, bitmaps);
+                    sums = Bitmap_dispose.hist(bitmap, bitmapt);
                 } catch (Exception e) {
                 }
             } else {

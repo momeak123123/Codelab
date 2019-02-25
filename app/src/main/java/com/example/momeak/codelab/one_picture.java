@@ -138,13 +138,13 @@ public class one_picture extends Fragment {
         imbtxt8.setVisibility(View.GONE);
         imb9.setVisibility(View.GONE);
         ima9.setVisibility(View.GONE);
-        imbtxt9.setVisibility(View.GONE);*/
+        imbtxt9.setVisibility(View.GONE);
         imb10.setVisibility(View.GONE);
         ima10.setVisibility(View.GONE);
         imbtxt10.setVisibility(View.GONE);
         imb11.setVisibility(View.GONE);
         ima11.setVisibility(View.GONE);
-        imbtxt11.setVisibility(View.GONE);
+        imbtxt11.setVisibility(View.GONE);*/
         imb12.setVisibility(View.GONE);
         ima12.setVisibility(View.GONE);
         imbtxt12.setVisibility(View.GONE);
@@ -164,6 +164,8 @@ public class one_picture extends Fragment {
         imbtxt7.setText("倒影效果");
         imbtxt8.setText("黑白效果");
         imbtxt9.setText("油画效果");
+        imbtxt10.setText("高斯模糊");
+        imbtxt11.setText("锐化");
         return view;
     }
 

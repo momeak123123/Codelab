@@ -93,6 +93,9 @@ public class four_face extends AppCompatActivity implements CameraBridgeViewBase
     private Bitmap bitmaps;
     private static final int COMPLETED = 0;
     private boolean pan =false;
+    private boolean bool=false;
+    private boolean bools=false;
+
     private void initializeOpenCVDependencies() {
         try {
             File cascadeDir = getDir("cascade", Context.MODE_PRIVATE);
@@ -213,29 +216,20 @@ public class four_face extends AppCompatActivity implements CameraBridgeViewBase
                 absoluteFaceSize = Math.round(height * 0.2f);
             }
         }
-        //检测并显示
-        MatOfRect faces = new MatOfRect();
-        if (cascadeClassifier != null) {
-            cascadeClassifier.detectMultiScale(mGray, faces, 1.1, 10, 1, new Size(absoluteFaceSize, absoluteFaceSize), new Size());
-        }
-        facesArray = faces.toArray();
-        if (facesArray.length > 0) {
-            for ( i = 0; i < facesArray.length; i++) {    //用框标记
-                if (i == 0) {
-                    // Imgproc.rectangle(mRgba, facesArray[i].tl(), facesArray[i].br(), new Scalar(255, 0, 0, 255), 3);
-                    //子线程
-                    Thread t = new Thread() {
-                        public void run() {
-                            bitmaps = Bitmap.createBitmap(mRgba.cols(), mRgba.rows(), Bitmap.Config.ARGB_8888);
-                            Utils.matToBitmap(mRgba, bitmaps);
-                            Message msg = new Message();
-                            msg.what = COMPLETED;
-                            handlers.sendMessage(msg);
-                        }
-                    };
-                    t.start();
+        if (bool == true) {
+            Thread t = new Thread() {
+                public void run() {
+                    bitmaps = Bitmap.createBitmap(mRgba.cols(), mRgba.rows(), Bitmap.Config.ARGB_8888);
+                    Utils.matToBitmap(mRgba, bitmaps);
+                    bool = false;
+                    bools = false;
+                    Message msg = new Message();
+                    msg.what = COMPLETED;
+                    handlers.sendMessage(msg);
+
                 }
-            }
+            };
+            t.start();
         }
         return mRgba;
     }
@@ -246,18 +240,7 @@ public class four_face extends AppCompatActivity implements CameraBridgeViewBase
             if (msg.what == COMPLETED) {
                 javaCameraView.setVisibility(View.GONE);
                 head.setVisibility(View.VISIBLE);
-                numberOfFaceDetected=Bitmap_face.detectFace(bitmaps);
-                if(numberOfFaceDetected==0)
-                {
-                    String txt = "照片检测失败，请重新上传";
-                    showMessagePositiveDialogd(txt);
-
-                }
-                else
-                {
-                    head.setImageBitmap(bitmaps);
-                    saveBitmap(bitmaps);
-                }
+                head.setImageBitmap(bitmaps);
 
             }
         }
@@ -323,13 +306,21 @@ public class four_face extends AppCompatActivity implements CameraBridgeViewBase
                 this.finish();
                 break;
             case R.id.but:
-                javaCameraView.setVisibility(View.VISIBLE);
-                head.setVisibility(View.GONE);
+                if(bools==false) {
+                    javaCameraView.setVisibility(View.VISIBLE);
+                    head.setVisibility(View.GONE);
+                    bools=true;
+                }
+                else
+                {
+                    bool=true;
+                }
                 break;
             case R.id.imb:
                 showEditTextDialog();
                 break;
             case R.id.ok:
+                saveBitmap(bitmaps);
                 if (add == 1) {
                     sharedPreferencesHelper.put(picture, name.getText().toString().trim());
                     Intent intent1 = new Intent();

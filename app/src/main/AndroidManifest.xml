@@ -37,7 +37,8 @@
         <activity android:name=".two_javacamera" />
         <activity android:name=".four_face" />
         <activity android:name=".one_processing" />
-        <activity android:name=".statics" />
+        <activity android:name=".statics">
+        </activity>
         <activity android:name=".one_dispose" />
         <activity android:name=".two_detection" />
         <activity android:name=".there_recognition" />

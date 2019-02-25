@@ -43,6 +43,7 @@ public class one_dispose extends AppCompatActivity implements BottomNavigationBa
     NestedScrollView layout1;
     private ArrayList<Fragment> fragments;
     private one_picture mstatic1;
+    private one_characteristic mstatic2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class one_dispose extends AppCompatActivity implements BottomNavigationBa
                 );
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.picture_processing, "图像处理").setActiveColorResource(R.color.coloronclice))
+                .addItem(new BottomNavigationItem(R.drawable.characteristic, "特征处理").setActiveColorResource(R.color.coloronclice))
                 .setFirstSelectedPosition(0)
                 .initialise();
         bottomNavigationBar.setTabSelectedListener(this);
@@ -90,7 +92,11 @@ public class one_dispose extends AppCompatActivity implements BottomNavigationBa
                     mstatic1 = one_picture.newInstance();
                 }
                 transaction.replace(R.id.layout1, mstatic1);
-
+            case 1:
+                if (mstatic2 == null) {
+                    mstatic2 = one_characteristic.newInstance();
+                }
+                transaction.replace(R.id.layout1, mstatic2);
                 break;
             default:
                 break;

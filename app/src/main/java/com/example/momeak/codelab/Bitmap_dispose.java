@@ -21,6 +21,8 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
@@ -39,6 +41,11 @@ import static org.opencv.imgproc.Imgproc.cvtColor;
 public class Bitmap_dispose {
     private static double results;
     private static double found;
+    static {
+        System.loadLibrary("native-lib");
+        System.loadLibrary("opencv_java3");
+    }
+
     public enum Position {
         LEFT,
         RIGHT,
@@ -51,6 +58,7 @@ public class Bitmap_dispose {
         RIGHT_DOWN,
         CENTER;
     }
+
     /**
      * 底片
      *
@@ -162,6 +170,7 @@ public class Bitmap_dispose {
         newBitmap.setPixels(newImgPixels, 0, width, 0, 0, width, height);
         return newBitmap;
     }
+
     /**
      * 复古
      *
@@ -360,6 +369,111 @@ public class Bitmap_dispose {
     }
 
     /**
+     * 高斯模糊
+     *
+     * @param mBitmapSrc
+     * @return
+     */
+    public static Bitmap handleImagePix9(Bitmap mBitmapSrc) {
+        int[] gauss = new int[]{1, 2, 1, 2, 4, 2, 1, 2, 1};
+        int width = mBitmapSrc.getWidth();
+        int height = mBitmapSrc.getHeight();
+        Bitmap newBmp = Bitmap.createBitmap(width, height,
+                Bitmap.Config.RGB_565);
+        int pixR = 0;
+        int pixG = 0;
+        int pixB = 0;
+        int pixColor = 0;
+        int newR = 0;
+        int newG = 0;
+        int newB = 0;
+        int delta = 16; // 值越小图片会越亮，越大则越暗
+        int idx = 0;
+        int[] pixels = new int[width * height];
+        mBitmapSrc.getPixels(pixels, 0, width, 0, 0, width, height);
+        for (int i = 1, length = height - 1; i < length; i++) {
+            for (int k = 1, len = width - 1; k < len; k++) {
+                idx = 0;
+                for (int m = -1; m <= 1; m++) {
+                    for (int n = -1; n <= 1; n++) {
+                        pixColor = pixels[(i + m) * width + k + n];
+                        pixR = Color.red(pixColor);
+                        pixG = Color.green(pixColor);
+                        pixB = Color.blue(pixColor);
+                        newR = newR + pixR * gauss[idx];
+                        newG = newG + pixG * gauss[idx];
+                        newB = newB + pixB * gauss[idx];
+                        idx++;
+                    }
+                }
+                newR /= delta;
+                newG /= delta;
+                newB /= delta;
+                newR = Math.min(255, Math.max(0, newR));
+                newG = Math.min(255, Math.max(0, newG));
+                newB = Math.min(255, Math.max(0, newB));
+                pixels[i * width + k] = Color.argb(255, newR, newG, newB);
+                newR = 0;
+                newG = 0;
+                newB = 0;
+            }
+        }
+        newBmp.setPixels(pixels, 0, width, 0, 0, width, height);
+        return newBmp;
+    }
+
+    /**
+     * 锐化
+     *
+     * @param mBitmapSrc
+     * @return
+     */
+    public static Bitmap handleImagePix10(Bitmap mBitmapSrc) {
+        int[] laplacian = new int[]{-1, -1, -1, -1, 9, -1, -1, -1, -1};
+        int width = mBitmapSrc.getWidth();
+        int height = mBitmapSrc.getHeight();
+        Bitmap bitmap = Bitmap.createBitmap(width, height,
+                Bitmap.Config.RGB_565);
+        int pixR = 0;
+        int pixG = 0;
+        int pixB = 0;
+        int pixColor = 0;
+        int newR = 0;
+        int newG = 0;
+        int newB = 0;
+        int idx = 0;
+        float alpha = 0.3F;
+        int[] pixels = new int[width * height];
+        mBitmapSrc.getPixels(pixels, 0, width, 0, 0, width, height);
+        for (int i = 1, length = height - 1; i < length; i++) {
+            for (int k = 1, len = width - 1; k < len; k++) {
+                idx = 0;
+                for (int m = -1; m <= 1; m++) {
+                    for (int n = -1; n <= 1; n++) {
+                        pixColor = pixels[(i + n) * width + k + m];
+                        pixR = Color.red(pixColor);
+                        pixG = Color.green(pixColor);
+                        pixB = Color.blue(pixColor);
+                        newR = newR + (int) (pixR * laplacian[idx] * alpha);
+                        newG = newG + (int) (pixG * laplacian[idx] * alpha);
+                        newB = newB + (int) (pixB * laplacian[idx] * alpha);
+                        idx++;
+                    }
+                }
+                newR = Math.min(255, Math.max(0, newR));
+                newG = Math.min(255, Math.max(0, newG));
+                newB = Math.min(255, Math.max(0, newB));
+                pixels[i * width + k] = Color.argb(255, newR, newG, newB);
+                newR = 0;
+                newG = 0;
+                newB = 0;
+            }
+        }
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bitmap;
+    }
+
+    /**
      * 灰度化
      *
      * @param mBitmapSrc
@@ -464,8 +578,19 @@ public class Bitmap_dispose {
         Mat mat_gray = new Mat();
         Imgproc.cvtColor(img1, mat_gray, Imgproc.COLOR_BGRA2GRAY, 1); // 转为灰度单通道Mat
 
-        Imgproc.Sobel(mat_gray, mat_gray, CV_8U, 1, 1); // 一阶差分
-        Core.convertScaleAbs(mat_gray, mat_gray, 10, 0); // 线性变换
+        Mat grad_x = new Mat();
+        Mat grad_y = new Mat();
+        Mat abs_grad_x = new Mat();
+        Mat abs_grad_y = new Mat();
+
+        Imgproc.Sobel(mat_gray, grad_x, CvType.CV_16S, 1, 0, 3, 1, 0);
+        // 计算垂直方向梯度
+        Imgproc.Sobel(mat_gray, grad_y, CvType.CV_16S, 0, 1, 3, 1, 0);
+        // 计算两个方向上的梯度的绝对值
+        Core.convertScaleAbs(grad_x, abs_grad_x);
+        Core.convertScaleAbs(grad_y, abs_grad_y);
+        // 计算结果梯度
+        Core.addWeighted(mat_gray, 0.5, abs_grad_y, 0.5, 1, mat_gray);
 
         Bitmap bitmaps = Bitmap.createBitmap(mat_gray.cols(), mat_gray.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(mat_gray, bitmaps);
@@ -498,117 +623,12 @@ public class Bitmap_dispose {
     }
 
     /**
-     * 高斯模糊
-     *
-     * @param mBitmapSrc
-     * @return
-     */
-    public static Bitmap enhance6(Bitmap mBitmapSrc) {
-        int[] gauss = new int[]{1, 2, 1, 2, 4, 2, 1, 2, 1};
-        int width = mBitmapSrc.getWidth();
-        int height = mBitmapSrc.getHeight();
-        Bitmap newBmp = Bitmap.createBitmap(width, height,
-                Bitmap.Config.RGB_565);
-        int pixR = 0;
-        int pixG = 0;
-        int pixB = 0;
-        int pixColor = 0;
-        int newR = 0;
-        int newG = 0;
-        int newB = 0;
-        int delta = 16; // 值越小图片会越亮，越大则越暗
-        int idx = 0;
-        int[] pixels = new int[width * height];
-        mBitmapSrc.getPixels(pixels, 0, width, 0, 0, width, height);
-        for (int i = 1, length = height - 1; i < length; i++) {
-            for (int k = 1, len = width - 1; k < len; k++) {
-                idx = 0;
-                for (int m = -1; m <= 1; m++) {
-                    for (int n = -1; n <= 1; n++) {
-                        pixColor = pixels[(i + m) * width + k + n];
-                        pixR = Color.red(pixColor);
-                        pixG = Color.green(pixColor);
-                        pixB = Color.blue(pixColor);
-                        newR = newR + pixR * gauss[idx];
-                        newG = newG + pixG * gauss[idx];
-                        newB = newB + pixB * gauss[idx];
-                        idx++;
-                    }
-                }
-                newR /= delta;
-                newG /= delta;
-                newB /= delta;
-                newR = Math.min(255, Math.max(0, newR));
-                newG = Math.min(255, Math.max(0, newG));
-                newB = Math.min(255, Math.max(0, newB));
-                pixels[i * width + k] = Color.argb(255, newR, newG, newB);
-                newR = 0;
-                newG = 0;
-                newB = 0;
-            }
-        }
-        newBmp.setPixels(pixels, 0, width, 0, 0, width, height);
-        return newBmp;
-    }
-
-    /**
-     * 锐化
-     *
-     * @param mBitmapSrc
-     * @return
-     */
-    public static Bitmap enhance7(Bitmap mBitmapSrc) {
-        int[] laplacian = new int[]{-1, -1, -1, -1, 9, -1, -1, -1, -1};
-        int width = mBitmapSrc.getWidth();
-        int height = mBitmapSrc.getHeight();
-        Bitmap bitmap = Bitmap.createBitmap(width, height,
-                Bitmap.Config.RGB_565);
-        int pixR = 0;
-        int pixG = 0;
-        int pixB = 0;
-        int pixColor = 0;
-        int newR = 0;
-        int newG = 0;
-        int newB = 0;
-        int idx = 0;
-        float alpha = 0.3F;
-        int[] pixels = new int[width * height];
-        mBitmapSrc.getPixels(pixels, 0, width, 0, 0, width, height);
-        for (int i = 1, length = height - 1; i < length; i++) {
-            for (int k = 1, len = width - 1; k < len; k++) {
-                idx = 0;
-                for (int m = -1; m <= 1; m++) {
-                    for (int n = -1; n <= 1; n++) {
-                        pixColor = pixels[(i + n) * width + k + m];
-                        pixR = Color.red(pixColor);
-                        pixG = Color.green(pixColor);
-                        pixB = Color.blue(pixColor);
-                        newR = newR + (int) (pixR * laplacian[idx] * alpha);
-                        newG = newG + (int) (pixG * laplacian[idx] * alpha);
-                        newB = newB + (int) (pixB * laplacian[idx] * alpha);
-                        idx++;
-                    }
-                }
-                newR = Math.min(255, Math.max(0, newR));
-                newG = Math.min(255, Math.max(0, newG));
-                newB = Math.min(255, Math.max(0, newB));
-                pixels[i * width + k] = Color.argb(255, newR, newG, newB);
-                newR = 0;
-                newG = 0;
-                newB = 0;
-            }
-        }
-        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-        return bitmap;
-    }
-
-    /**
      * 平滑处理
      *
      * @param mBitmapSrc
      * @return
      */
-    public static Bitmap enhance8(Bitmap mBitmapSrc) {
+    public static Bitmap enhance6(Bitmap mBitmapSrc) {
         int w = mBitmapSrc.getWidth();
         int h = mBitmapSrc.getHeight();
         int[] data = new int[w * h];
@@ -662,9 +682,9 @@ public class Bitmap_dispose {
      * @param mBitmapSrc
      * @return
      */
-    public static Bitmap enhance9(Bitmap mBitmapSrc) {
-        int filterWidth=30;
-        int filterHeight=30;
+    public static Bitmap enhance7(Bitmap mBitmapSrc) {
+        int filterWidth = 30;
+        int filterHeight = 30;
         int width = mBitmapSrc.getWidth();
         int height = mBitmapSrc.getHeight();
         int[] pixNew = new int[width * height];
@@ -708,14 +728,14 @@ public class Bitmap_dispose {
     }
 
     /**
-     *  中值滤波
+     * 中值滤波
      *
      * @param mBitmapSrc
      * @return
      */
-    public static Bitmap enhance10(Bitmap mBitmapSrc) {
-        int filterWidth=30;
-        int filterHeight=30;
+    public static Bitmap enhance8(Bitmap mBitmapSrc) {
+        int filterWidth = 30;
+        int filterHeight = 30;
         int width = mBitmapSrc.getWidth();
         int height = mBitmapSrc.getHeight();
         int[] pixNew = new int[width * height];
@@ -755,6 +775,85 @@ public class Bitmap_dispose {
         mBitmapSrc = null;
         pixOld = null;
         pixNew = null;
+        return bitmap;
+    }
+
+    /**
+     * 高斯差分算法边缘检测
+     *
+     * @param mBitmapSrc
+     * @return
+     */
+    public static Bitmap enhance9(Bitmap mBitmapSrc) {
+        Mat src = new Mat(mBitmapSrc.getHeight(), mBitmapSrc.getWidth(), CvType.CV_8UC4);
+        Utils.bitmapToMat(mBitmapSrc, src);
+        Mat grayMat = new Mat();
+        Mat blur1 = new Mat();
+        Mat blur2 = new Mat();
+
+
+        // 原图置灰
+        Imgproc.cvtColor(src, grayMat, Imgproc.COLOR_BGR2GRAY);
+
+
+        // 以两个不同的模糊半径对图像做模糊处理
+        Imgproc.GaussianBlur(grayMat, blur1, new Size(15, 15), 5);
+        Imgproc.GaussianBlur(grayMat, blur2, new Size(21, 21), 5);
+
+
+        // 将两幅模糊后的图像相减
+        Mat diff = new Mat();
+        Core.absdiff(blur1, blur2, diff);
+
+
+        // 反转二值阈值化
+        Core.multiply(diff, new Scalar(100), diff);
+        Imgproc.threshold(diff, diff, 50, 255, Imgproc.THRESH_BINARY_INV);
+
+
+        // Mat转Bitmap
+        Bitmap bitmap = Bitmap.createBitmap(diff.cols(), diff.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(diff, bitmap);
+
+        return bitmap;
+    }
+
+    /**
+     * 轮廓检测
+     *
+     * @param mBitmapSrc
+     * @return
+     */
+    public static Bitmap enhance10(Bitmap mBitmapSrc) {
+        Mat src = new Mat(mBitmapSrc.getHeight(), mBitmapSrc.getWidth(), CvType.CV_8UC4);
+        Utils.bitmapToMat(mBitmapSrc, src);
+        Mat grayMat = new Mat();
+        Mat cannyEdges = new Mat();
+
+        // 原图置灰
+        Imgproc.cvtColor(src, grayMat, Imgproc.COLOR_BGR2GRAY);
+
+        Imgproc.Canny(grayMat, cannyEdges, 10, 100);
+
+        Mat hierarchy = new Mat();
+        // 保存轮廓
+        ArrayList<MatOfPoint> contourList = new ArrayList<>();
+
+        // 检测轮廓
+        Imgproc.findContours(cannyEdges, contourList, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        // 画出轮廓
+        Mat contours = new Mat();
+        contours.create(cannyEdges.rows(), cannyEdges.cols(), CvType.CV_8UC3);
+        Random r = new Random();
+        for (int i = 0; i < contourList.size(); i++) {
+            Imgproc.drawContours(contours, contourList, i, new Scalar(r.nextInt(255), r.nextInt(255), r.nextInt(255), -1));
+        }
+
+        // Mat转Bitmap
+        Bitmap bitmap = Bitmap.createBitmap(contours.cols(), contours.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(contours, bitmap);
+
         return bitmap;
     }
 
@@ -978,5 +1077,43 @@ public class Bitmap_dispose {
         }
         return sb.toString();
     }
+    public static Bitmap Harris(Bitmap bm1) {
 
+        Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
+        Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
+        Utils.bitmapToMat(bmp1, img1);
+
+        Mat img1s = new Mat();
+
+        cvtColor(img1, img1s, Imgproc.COLOR_BGRA2GRAY, 1); // 转为灰度单通道Mat
+
+        Harriss(img1s.getNativeObjAddr(), img1.getNativeObjAddr());
+
+        Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img1, bitmap1);
+
+        return bitmap1;
+    }
+
+    public static native void Harriss(long RGr, long Rgba);
+
+    public static Bitmap Shit(Bitmap bm1) {
+
+        Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
+        Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
+        Utils.bitmapToMat(bmp1, img1);
+
+        Mat img1s = new Mat();
+
+        cvtColor(img1, img1s, Imgproc.COLOR_BGRA2GRAY, 1); // 转为灰度单通道Mat
+
+        Shits(img1s.getNativeObjAddr(), img1.getNativeObjAddr());
+
+        Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img1, bitmap1);
+
+        return bitmap1;
+    }
+
+    public static native void Shits(long RGr, long Rgba);
 }

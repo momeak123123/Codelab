@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -84,13 +86,16 @@ public class there_statics extends AppCompatActivity {
     private Bitmap headbit;
     private Bitmap headsbit;
     private int id;
+    private static final int COMPLETED = 0;
+    QMUITipDialog tipDialog;
     private static final String RESULT_FORMAT = "00.0%";
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
-
+                    System.loadLibrary("native-lib");
+                    System.loadLibrary("opencv_java3");
                 }
                 break;
                 default: {
@@ -124,8 +129,8 @@ public class there_statics extends AppCompatActivity {
      * 判断第一张，第二张图片
      *
      * @param bitmap
-     * @headint  第几个图片
      * @return
+     * @headint 第几个图片
      */
     private void image(Bitmap bitmap) {
 
@@ -269,53 +274,79 @@ public class there_statics extends AppCompatActivity {
                 headint = 1;
                 break;
             case R.id.imageView13:
-                DecimalFormat df = new DecimalFormat(RESULT_FORMAT);
-                final QMUITipDialog tipDialog;
-                tipDialog = new QMUITipDialog.Builder(this)
-                        .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
-                        .setTipWord("正在加载")
-                        .create();
-                tipDialog.show();
-                switch (id) {
-                    case 1:
-                        sum=Bitmap_dispose.similarity(headbit, headsbit);
-                        results = df.format(sum);
-                        similarity.setText("相似度为： " + results);
-                        tipDialog.dismiss();
-                        break;
-                    case 2:
-                        sum=Bitmap_dispose.hist(headbit, headsbit);
-                        results = df.format(sum);
-                        similarity.setText("相似度为： " + results);
-                        tipDialog.dismiss();
-                        break;
-                    case 3:
-                        sum=Bitmap_dispose.similar(headbit, headsbit);
-                        results = df.format(1 / (sum + 1));
-                        similarity.setText("相似度为： " + results);
-                        tipDialog.dismiss();
-                        break;
-                    case 4:
-                        sum = Bitmap_dispose.shae(headbit, headsbit);
-                        if (sum < 12) {
-                            results = df.format((11 - sum) / 10);
-                        } else {
-                            results = df.format(0);
+                if (headbit != null && headsbit != null) {
+                    tipDialog = new QMUITipDialog.Builder(this)
+                            .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                            .setTipWord("正在加载")
+                            .create();
+                    tipDialog.show();
+                    Thread t = new Thread() {
+                        public void run() {
+                            DecimalFormat df = new DecimalFormat(RESULT_FORMAT);
+                            switch (id) {
+                                case 1:
+                                    sum = Bitmap_dispose.similarity(headbit, headsbit);
+                                    results = df.format(sum);
+                                    break;
+                                case 2:
+                                    sum = Bitmap_dispose.hist(headbit, headsbit);
+                                    results = df.format(sum);
+                                    break;
+                                case 3:
+                                    sum = Bitmap_dispose.similar(headbit, headsbit);
+                                    results = df.format(1 / (sum + 1));
+                                    break;
+                                case 4:
+                                    sum = Bitmap_dispose.shae(headbit, headsbit);
+                                    if (sum < 12) {
+                                        results = df.format((11 - sum) / 10);
+                                    } else {
+                                        results = df.format(0);
+                                    }
+                                    break;
+                                case 5:
+
+                                    break;
+                                case 6:
+
+                                    break;
+                                case 7:
+
+                                    break;
+                                case 8:
+
+                                    break;
+                                case 9:
+
+                                    break;
+                                case 10:
+
+                                    break;
+                                case 11:
+
+                                    break;
+                                case 12:
+
+                                    break;
+                            }
+                            Message msg = new Message();
+                            msg.what = COMPLETED;
+                            handlers.sendMessage(msg);
                         }
-                        similarity.setText("相似度为： " + results);
-                        tipDialog.dismiss();
-                        break;
-                    case 5:
-
-                        break;
-                    case 6:
-
-                        break;
-                    case 7:
-
-                        break;
+                    };
+                    t.start();
                 }
                 break;
         }
     }
+    private Handler handlers = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == COMPLETED) {
+                similarity.setText("相似度为： " + results);
+                tipDialog.dismiss();
+            }
+        }
+    };
+
 }

@@ -1,18 +1,24 @@
 package com.example.momeak.codelab;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.media.FaceDetector;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +34,9 @@ import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -52,9 +61,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static org.opencv.core.CvType.CV_8U;
+import static org.opencv.imgproc.Imgproc.cvtColor;
 
 
 public class statics extends AppCompatActivity {
+    private static final String TAG = "OCVSample::Activity";
+
     private static final int ALBUM_REQUEST_CODE = 1;
     //相机请求码
     private static final int CAMERA_REQUEST_CODE = 2;
@@ -95,10 +107,28 @@ public class statics extends AppCompatActivity {
     private Bitmap headbit;
     private Bitmap headsbit;
     private int id;
+    private static final int COMPLETED = 0;
+    QMUITipDialog tipDialog;
     private File filePic;
     private String fileName;
     private int numberOfFaceDetected;
     private FaceDetector.Face[] myFace;
+    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+        @Override
+        public void onManagerConnected(int status) {
+            switch (status) {
+                case LoaderCallbackInterface.SUCCESS: {
+                    System.loadLibrary("native-lib");
+                    System.loadLibrary("opencv_java3");
+                }
+                break;
+                default: {
+                    super.onManagerConnected(status);
+                }
+                break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +141,19 @@ public class statics extends AppCompatActivity {
         close.setVisibility(View.GONE);
         Intent intent = getIntent();
         id = (int) intent.getSerializableExtra("id");
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!OpenCVLoader.initDebug()) {
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
+        } else {
+            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
     }
 
@@ -203,7 +242,8 @@ public class statics extends AppCompatActivity {
                 break;
         }
     }
-    public  void saveBitmaps(Bitmap bitmap) {
+
+    public void saveBitmaps(Bitmap bitmap) {
         File appDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
@@ -236,6 +276,7 @@ public class statics extends AppCompatActivity {
         intent.setData(uri);
         this.sendBroadcast(intent);
     }
+
     @OnClick({R.id.head, R.id.heads, R.id.imageView11, R.id.imageView12, R.id.imageView13, R.id.close, R.id.fold2})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -267,108 +308,117 @@ public class statics extends AppCompatActivity {
                 showListPopups(imageView11, 1);
                 break;
             case R.id.imageView12:
-                final QMUITipDialog tipDialog;
-                tipDialog = new QMUITipDialog.Builder(this)
-                        .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
-                        .setTipWord("正在加载")
-                        .create();
-                tipDialog.show();
-                switch (id) {
-                    case 2:
-                        headsbit = Bitmap_dispose.handleImagePix(headbit);
-                        heads.setImageBitmap(headsbit);
-                        tipDialog.dismiss();
-                        break;
-                    case 3:
-                        headsbit = Bitmap_dispose.handleImagePix2(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 4:
-                        headsbit = Bitmap_dispose.handleImagePix3(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 5:
-                        headsbit = Bitmap_dispose.handleImagePix4(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 6:
-                        headsbit = Bitmap_dispose.handleImagePix5(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 7:
-                        headsbit = Bitmap_dispose.handleImagePix6(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 8:
-                        headsbit = Bitmap_dispose.handleImagePix7(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 9:
-                        headsbit = Bitmap_dispose.handleImagePix8(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 30:
-                        headsbit = Bitmap_dispose.enhance(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 31:
-                        headsbit = Bitmap_dispose.enhance1(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 32:
-                        headsbit = Bitmap_dispose.enhance2(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 33:
-                        headsbit = Bitmap_dispose.enhance3(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 34:
-                        headsbit = Bitmap_dispose.enhance4(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 35:
-                        headsbit = Bitmap_dispose.enhance5(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 36:
-                        headsbit = Bitmap_dispose.enhance6(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 37:
-                        headsbit = Bitmap_dispose.enhance7(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 38:
-                        headsbit = Bitmap_dispose.enhance8(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 39:
-                        headsbit = Bitmap_dispose.enhance9(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
-                    case 40:
-                        headsbit = Bitmap_dispose.enhance10(headbit);
-                        heads.setImageBitmap(headsbit);
-                       tipDialog.dismiss();
-                        break;
+                if (headbit != null) {
+
+                    tipDialog = new QMUITipDialog.Builder(this)
+                            .setIconType(QMUITipDialog.Builder.ICON_TYPE_LOADING)
+                            .setTipWord("正在加载")
+                            .create();
+                    tipDialog.show();
+                    Thread t = new Thread() {
+                        public void run() {
+                            switch (id) {
+                                case 2:
+                                    headsbit = Bitmap_dispose.handleImagePix(headbit);
+                                    break;
+                                case 3:
+                                    headsbit = Bitmap_dispose.handleImagePix2(headbit);
+                                    break;
+                                case 4:
+                                    headsbit = Bitmap_dispose.handleImagePix3(headbit);
+                                    break;
+                                case 5:
+                                    headsbit = Bitmap_dispose.handleImagePix4(headbit);
+                                    break;
+                                case 6:
+                                    headsbit = Bitmap_dispose.handleImagePix5(headbit);
+                                    break;
+                                case 7:
+                                    headsbit = Bitmap_dispose.handleImagePix6(headbit);
+                                    break;
+                                case 8:
+                                    headsbit = Bitmap_dispose.handleImagePix7(headbit);
+                                    break;
+                                case 9:
+                                    headsbit = Bitmap_dispose.handleImagePix8(headbit);
+                                    break;
+                                case 10:
+                                    headsbit = Bitmap_dispose.handleImagePix9(headbit);
+                                    break;
+                                case 11:
+                                    headsbit = Bitmap_dispose.handleImagePix10(headbit);
+                                    break;
+                                case 15:
+
+                                    break;
+                                case 16:
+
+                                    break;
+                                case 17:
+
+                                    break;
+                                case 18:
+
+                                    break;
+                                case 19:
+
+                                    break;
+                                case 20:
+
+                                    break;
+                                case 21:
+
+                                    break;
+                                case 22:
+
+                                    break;
+                                case 23:
+                                    headsbit = Bitmap_dispose.Harris(headbit);
+                                    break;
+                                case 24:
+                                    headsbit = Bitmap_dispose.Shit(headbit);
+                                    break;
+                                case 30:
+                                    headsbit = Bitmap_dispose.enhance(headbit);
+                                    break;
+                                case 31:
+                                    headsbit = Bitmap_dispose.enhance1(headbit);
+                                    break;
+                                case 32:
+                                    headsbit = Bitmap_dispose.enhance2(headbit);
+                                    break;
+                                case 33:
+                                    headsbit = Bitmap_dispose.enhance3(headbit);
+                                    break;
+                                case 34:
+                                    headsbit = Bitmap_dispose.enhance4(headbit);
+                                    break;
+                                case 35:
+                                    headsbit = Bitmap_dispose.enhance5(headbit);
+                                    break;
+                                case 36:
+                                    headsbit = Bitmap_dispose.enhance6(headbit);
+                                    break;
+                                case 37:
+                                    headsbit = Bitmap_dispose.enhance7(headbit);
+                                    break;
+                                case 38:
+                                    headsbit = Bitmap_dispose.enhance8(headbit);
+                                    break;
+                                case 39:
+                                    headsbit = Bitmap_dispose.enhance9(headbit);
+                                    break;
+                                case 40:
+                                    headsbit = Bitmap_dispose.enhance10(headbit);
+                                    break;
+                            }
+                            Message msg = new Message();
+                            msg.what = COMPLETED;
+                            handlers.sendMessage(msg);
+
+                        }
+                    };
+                    t.start();
                 }
                 break;
             case R.id.imageView13:
@@ -378,6 +428,13 @@ public class statics extends AppCompatActivity {
                 break;
         }
     }
-
-
+    private Handler handlers = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == COMPLETED) {
+                heads.setImageBitmap(headsbit);
+                tipDialog.dismiss();
+            }
+        }
+    };
 }

@@ -62,6 +62,4 @@ target_link_libraries( # Specifies the target library.
         # included in the NDK.
         ${log-lib}
 
-        ${OpenCV_LIBS}
-
-        android log libopencv_java3)
+        libopencv_java3)
