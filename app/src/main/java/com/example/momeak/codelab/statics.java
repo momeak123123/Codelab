@@ -1,15 +1,10 @@
 package com.example.momeak.codelab;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.media.FaceDetector;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,7 +13,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,8 +22,6 @@ import android.widget.TextView;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
@@ -37,13 +29,6 @@ import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,15 +38,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static org.opencv.core.CvType.CV_8U;
-import static org.opencv.imgproc.Imgproc.cvtColor;
 
 
 public class statics extends AppCompatActivity {
@@ -72,26 +53,28 @@ public class statics extends AppCompatActivity {
     private static final int CAMERA_REQUEST_CODE = 2;
     //剪裁请求码
     private static final int CROP_REQUEST_CODE = 3;
-    @BindView(R.id.ima)
-    ImageView ima;
-    @BindView(R.id.imb)
-    ImageView imb;
-    @BindView(R.id.close)
-    ImageView close;
-    @BindView(R.id.head)
-    QMUIRadiusImageView head;
-    @BindView(R.id.heads)
-    QMUIRadiusImageView heads;
-    @BindView(R.id.imageView11)
-    ImageView imageView11;
+    @BindView(R.id.imageView29)
+    ImageView imageView29;
+    @BindView(R.id.imageView30)
+    ImageView imageView30;
+    @BindView(R.id.imageView34)
+    ImageView imageView34;
+    @BindView(R.id.imageView35)
+    ImageView imageView35;
+    @BindView(R.id.imageView36)
+    ImageView imageView36;
+    @BindView(R.id.imageView37)
+    ImageView imageView37;
     @BindView(R.id.view7)
     View view7;
     @BindView(R.id.textView4)
     TextView textView4;
     @BindView(R.id.fold2)
     ImageView fold2;
-    @BindView(R.id.textView5)
-    TextView textView5;
+    @BindView(R.id.head)
+    QMUIRadiusImageView head;
+    @BindView(R.id.imageView11)
+    ImageView imageView11;
     @BindView(R.id.imageView12)
     ImageView imageView12;
     @BindView(R.id.imageView13)
@@ -102,17 +85,30 @@ public class statics extends AppCompatActivity {
     TextView textView7;
     @BindView(R.id.textView8)
     TextView textView8;
+    @BindView(R.id.imageView)
+    ImageView imageView;
+    @BindView(R.id.heads)
+    QMUIRadiusImageView heads;
+    @BindView(R.id.imageView31)
+    ImageView imageView31;
+    @BindView(R.id.imageView32)
+    ImageView imageView32;
+    @BindView(R.id.imageView33)
+    ImageView imageView33;
+    @BindView(R.id.textView5)
+    TextView textView5;
+
     //调用照相机返回图片文件
     private File tempFile;
     private Bitmap headbit;
     private Bitmap headsbit;
     private int id;
     private static final int COMPLETED = 0;
+    private static int numberOfFaceDetected;
+    private static FaceDetector.Face[] myFace;
     QMUITipDialog tipDialog;
     private File filePic;
     private String fileName;
-    private int numberOfFaceDetected;
-    private FaceDetector.Face[] myFace;
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -136,9 +132,6 @@ public class statics extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_statics);
         ButterKnife.bind(this);
-        ima.setVisibility(View.GONE);
-        imb.setVisibility(View.GONE);
-        close.setVisibility(View.GONE);
         Intent intent = getIntent();
         id = (int) intent.getSerializableExtra("id");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -277,37 +270,16 @@ public class statics extends AppCompatActivity {
         this.sendBroadcast(intent);
     }
 
-    @OnClick({R.id.head, R.id.heads, R.id.imageView11, R.id.imageView12, R.id.imageView13, R.id.close, R.id.fold2})
+    @OnClick({R.id.imageView11, R.id.imageView12, R.id.imageView13, R.id.fold2, R.id.textView5})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.head:
-                if (headbit != null) {
-                    ima.setVisibility(View.VISIBLE);
-                    imb.setVisibility(View.VISIBLE);
-                    close.setVisibility(View.VISIBLE);
-                    imb.setImageBitmap(headbit);
-                }
-                break;
-            case R.id.heads:
-                if (headsbit != null) {
-                    ima.setVisibility(View.VISIBLE);
-                    imb.setVisibility(View.VISIBLE);
-                    close.setVisibility(View.VISIBLE);
-                    imb.setImageBitmap(headsbit);
-                }
-                break;
-            case R.id.close:
-                ima.setVisibility(View.GONE);
-                imb.setVisibility(View.GONE);
-                close.setVisibility(View.GONE);
-                break;
             case R.id.fold2:
                 this.finish();
                 break;
-            case R.id.imageView11:
-                showListPopups(imageView11, 1);
-                break;
             case R.id.imageView12:
+                showListPopups(imageView12, 1);
+                break;
+            case R.id.imageView11:
                 if (headbit != null) {
 
                     tipDialog = new QMUITipDialog.Builder(this)
@@ -318,6 +290,9 @@ public class statics extends AppCompatActivity {
                     Thread t = new Thread() {
                         public void run() {
                             switch (id) {
+                                case 1:
+                                    headsbit = Bitmap_face.drawFaces(headbit);
+                                    break;
                                 case 2:
                                     headsbit = Bitmap_dispose.handleImagePix(headbit);
                                     break;
@@ -349,33 +324,27 @@ public class statics extends AppCompatActivity {
                                     headsbit = Bitmap_dispose.handleImagePix10(headbit);
                                     break;
                                 case 15:
-
+                                    headsbit = Bitmap_dispose.fast(headbit);
                                     break;
                                 case 16:
-
+                                    headsbit = Bitmap_dispose.star(headbit);
                                     break;
                                 case 17:
-
+                                    headsbit = Bitmap_dispose.sift(headbit);
                                     break;
                                 case 18:
-
+                                    headsbit = Bitmap_dispose.surf(headbit);
                                     break;
                                 case 19:
-
+                                    headsbit = Bitmap_dispose.orb(headbit);
                                     break;
                                 case 20:
-
+                                    headsbit = Bitmap_dispose.brisk(headbit);
                                     break;
                                 case 21:
-
-                                    break;
-                                case 22:
-
-                                    break;
-                                case 23:
                                     headsbit = Bitmap_dispose.Harris(headbit);
                                     break;
-                                case 24:
+                                case 22:
                                     headsbit = Bitmap_dispose.Shit(headbit);
                                     break;
                                 case 30:
@@ -428,13 +397,65 @@ public class statics extends AppCompatActivity {
                 break;
         }
     }
+
     private Handler handlers = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == COMPLETED) {
+                // try
+                // {
+                if (id == 1) {
+                    Bitmap bitmap = headbit.copy(Bitmap.Config.RGB_565, true);
+                    int numberOfFace = 5;
+                    FaceDetector myFaceDetect;
+                    int imageWidth = bitmap.getWidth();
+                    int imageHeight = bitmap.getHeight();
+                    myFace = new FaceDetector.Face[numberOfFace];
+                    myFaceDetect = new FaceDetector(imageWidth, imageHeight, numberOfFace);
+                    numberOfFaceDetected = myFaceDetect.findFaces(bitmap, myFace);
+                    for (int i = 0; i < numberOfFaceDetected; i++) {
+                        FaceDetector.Face face = myFace[i];
+                        PointF myMidPoint = new PointF();
+                        face.getMidPoint(myMidPoint);
+                        float myEyesDistance = face.eyesDistance();
+                        int x = (int) (myMidPoint.x - myEyesDistance * 1.3);
+                        int y = (int) (myMidPoint.y - myEyesDistance * 1.8);
+                        int winth = (int) (myEyesDistance * 2.6);
+                        int height = (int) (myEyesDistance * 3.6);
+                        if (x >= 0 && y >= 0 && (x + winth) <= imageWidth && (y + height) <= imageHeight) {
+                            switch (i) {
+                                case 0:
+                                    Bitmap bmp1 = Bitmap.createBitmap(bitmap, x, y, winth, height);
+                                    imageView33.setImageBitmap(bmp1);
+                                    break;
+                                case 1:
+                                    Bitmap bmp2 = Bitmap.createBitmap(bitmap, x, y, winth, height);
+                                    imageView34.setImageBitmap(bmp2);
+                                    break;
+                                case 2:
+                                    Bitmap bmp3 = Bitmap.createBitmap(bitmap, x, y, winth, height);
+                                    imageView35.setImageBitmap(bmp3);
+                                    break;
+                                case 3:
+                                    Bitmap bmp4 = Bitmap.createBitmap(bitmap, x, y, winth, height);
+                                    imageView36.setImageBitmap(bmp4);
+                                    break;
+                                case 4:
+                                    Bitmap bmp5 = Bitmap.createBitmap(bitmap, x, y, winth, height);
+                                    imageView37.setImageBitmap(bmp5);
+                                    break;
+                            }
+                        }
+                    }
+                }
+                // }catch (Exception e)
+                // {
+
+                //  }
                 heads.setImageBitmap(headsbit);
                 tipDialog.dismiss();
             }
         }
     };
+
 }

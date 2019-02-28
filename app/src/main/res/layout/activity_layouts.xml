@@ -280,7 +280,7 @@
         android:layout_marginStart="@dimen/d30"
         android:layout_marginTop="@dimen/d20"
         android:background="@drawable/shape_radius"
-        android:elevation="@dimen/d3"
+        android:elevation="0dp"
         android:translationZ="@dimen/d3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

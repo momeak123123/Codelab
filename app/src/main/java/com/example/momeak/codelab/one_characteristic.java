@@ -136,13 +136,13 @@ public class one_characteristic extends Fragment {
         imbtxt7.setVisibility(View.GONE);
         imb8.setVisibility(View.GONE);
         ima8.setVisibility(View.GONE);
-        imbtxt8.setVisibility(View.GONE);
+        imbtxt8.setVisibility(View.GONE);*/
         imb9.setVisibility(View.GONE);
         ima9.setVisibility(View.GONE);
         imbtxt9.setVisibility(View.GONE);
         imb10.setVisibility(View.GONE);
         ima10.setVisibility(View.GONE);
-        imbtxt10.setVisibility(View.GONE);*/
+        imbtxt10.setVisibility(View.GONE);
         imb11.setVisibility(View.GONE);
         ima11.setVisibility(View.GONE);
         imbtxt11.setVisibility(View.GONE);
@@ -161,11 +161,9 @@ public class one_characteristic extends Fragment {
         imbtxt3.setText("SIFT特征");
         imbtxt4.setText("SURF特征");
         imbtxt5.setText("ORB特征");
-        imbtxt6.setText("BRIEF特征");
-        imbtxt7.setText("BRISK特征");
-        imbtxt8.setText("FREAK特征");
-        imbtxt9.setText("Harris角点");
-        imbtxt10.setText("Shi-Tomasi角点");
+        imbtxt6.setText("BRISK特征");
+        imbtxt7.setText("Harris角点");
+        imbtxt8.setText("Shi-Tomasi角点");
         return view;
     }
 

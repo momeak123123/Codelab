@@ -18,13 +18,22 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
+import org.opencv.core.DMatch;
+import org.opencv.core.KeyPoint;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfDMatch;
 import org.opencv.core.MatOfFloat;
 import org.opencv.core.MatOfInt;
+import org.opencv.core.MatOfKeyPoint;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
+import org.opencv.features2d.DescriptorExtractor;
+import org.opencv.features2d.DescriptorMatcher;
+import org.opencv.features2d.FeatureDetector;
+import org.opencv.features2d.Features2d;
+import org.opencv.features2d.ORB;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.File;
@@ -33,6 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static java.lang.Math.sqrt;
 import static org.opencv.core.CvType.CV_8U;
 import static org.opencv.imgproc.Imgproc.COLOR_BGR2HSV;
 import static org.opencv.imgproc.Imgproc.CV_COMP_CORREL;
@@ -41,6 +51,8 @@ import static org.opencv.imgproc.Imgproc.cvtColor;
 public class Bitmap_dispose {
     private static double results;
     private static double found;
+    private static double reture;
+
     static {
         System.loadLibrary("native-lib");
         System.loadLibrary("opencv_java3");
@@ -827,35 +839,14 @@ public class Bitmap_dispose {
     public static Bitmap enhance10(Bitmap mBitmapSrc) {
         Mat src = new Mat(mBitmapSrc.getHeight(), mBitmapSrc.getWidth(), CvType.CV_8UC4);
         Utils.bitmapToMat(mBitmapSrc, src);
-        Mat grayMat = new Mat();
-        Mat cannyEdges = new Mat();
 
-        // 原图置灰
-        Imgproc.cvtColor(src, grayMat, Imgproc.COLOR_BGR2GRAY);
-
-        Imgproc.Canny(grayMat, cannyEdges, 10, 100);
-
-        Mat hierarchy = new Mat();
-        // 保存轮廓
-        ArrayList<MatOfPoint> contourList = new ArrayList<>();
-
-        // 检测轮廓
-        Imgproc.findContours(cannyEdges, contourList, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-
-        // 画出轮廓
-        Mat contours = new Mat();
-        contours.create(cannyEdges.rows(), cannyEdges.cols(), CvType.CV_8UC3);
-        Random r = new Random();
-        for (int i = 0; i < contourList.size(); i++) {
-            Imgproc.drawContours(contours, contourList, i, new Scalar(r.nextInt(255), r.nextInt(255), r.nextInt(255), -1));
-        }
-
+        outline(src.getNativeObjAddr());
         // Mat转Bitmap
-        Bitmap bitmap = Bitmap.createBitmap(contours.cols(), contours.rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(contours, bitmap);
-
+        Bitmap bitmap = Bitmap.createBitmap(src.cols(), src.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(src, bitmap);
         return bitmap;
     }
+    public static native void outline(  long Rgba);
 
     /**
      * 像素值对比
@@ -863,7 +854,7 @@ public class Bitmap_dispose {
      * @param bm1,bm2
      * @return
      */
-    public static Double similarity(Bitmap bm1, Bitmap bm2) {
+    public static double similarity(Bitmap bm1, Bitmap bm2) {
         Bitmap bm_one = bm1;
         Bitmap bm_two = bm2;
         //保存图片所有像素个数的数组，图片宽×高
@@ -902,7 +893,7 @@ public class Bitmap_dispose {
         return percent(t, t + f);
     }
 
-    private static Double percent(int divisor, int dividend) {
+    private static double percent(int divisor, int dividend) {
         final double value = divisor * 1.0 / dividend;
         return value;
     }
@@ -913,7 +904,7 @@ public class Bitmap_dispose {
      * @param bm1,bm2
      * @return
      */
-    public static Double hist(Bitmap bm1, Bitmap bm2) {
+    public static double hist(Bitmap bm1, Bitmap bm2) {
         //  Mat转bitmap
         //   Bitmap bitmap= Bitmap.createBitmap(mat.cols(), mat.rows(), Bitmap.Config.ARGB_8888);
         //   Utils.matToBitmap(mat, bitmap);
@@ -973,14 +964,114 @@ public class Bitmap_dispose {
         bm_one.getPixels(pixels_one, 0, bm_one.getWidth(), 0, 0, bm_one.getWidth(), bm_one.getHeight());
         bm_two.getPixels(pixels_two, 0, bm_two.getWidth(), 0, 0, bm_two.getWidth(), bm_two.getHeight());
         double rs = 0;
-        for (int i = 0; i < pixels_one.length; i++) {
+        for (int i = 0; i < pixels_two.length; i++) {
             try {
-                rs += Math.pow(pixels_one[i] - pixels_two[i], 2);
+                rs += pixels_two[i];
             } catch (Exception e) {
             }
-
         }
-        found = Math.pow(rs, 0.5);
+        rs=rs/pixels_two.length;
+        double rt = 0;
+        for (int i = 0; i < pixels_one.length; i++) {
+            try {
+                rt += pixels_one[i];
+            } catch (Exception e) {
+            }
+        }
+        rt=rt/pixels_one.length;
+
+        double total=0;
+        for(int i=0;i<pixels_two.length;i++){
+            total += (pixels_two[i]-rs)*(pixels_two[i]-rs);   //求出方差
+        }
+        double standardDeviation = Math.sqrt(total/pixels_two.length);
+        double totals=0;
+        for(int i=0;i<pixels_one.length;i++){
+            totals += (pixels_one[i]-rt)*(pixels_one[i]-rt);   //求出方差
+        }
+        double standardDeviations = Math.sqrt(total/pixels_one.length);
+
+
+        double rc = 0;
+        double rb = 0;
+        if (pixels_one.length >= pixels_two.length) {
+            //对每一个像素的RGB值进行比较
+            for (int i = 0; i < pixels_two.length; i++) {
+                try {
+                    rc += Math.pow(((pixels_one[i]-rt)/standardDeviations)-((pixels_two[i]-rs)/standardDeviation), 2);
+                } catch (Exception e) { }
+            }
+        } else {
+            for (int i = 0; i < pixels_one.length; i++) {
+                try {
+                    rc += Math.pow(((pixels_one[i]-rt)/standardDeviations)-((pixels_two[i]-rs)/standardDeviation), 2);
+                } catch (Exception e) { }
+            }
+        }
+
+        found = sqrt(rc);
+        found =(double) 1.0/(1.0+found);
+        return found;
+    }
+
+    /**
+     * 余弦距离对比
+     *
+     * @param bm1,bm2
+     * @return
+     */
+    public static double cosine(Bitmap bm1, Bitmap bm2) {
+        Bitmap bm_one = bm1;
+        Bitmap bm_two = bm2;
+        //保存图片所有像素个数的数组，图片宽×高
+        int[] pixels_one = new int[bm_one.getWidth() * bm_one.getHeight()];
+        int[] pixels_two = new int[bm_two.getWidth() * bm_two.getHeight()];
+        //获取每个像素的RGB值
+        bm_one.getPixels(pixels_one, 0, bm_one.getWidth(), 0, 0, bm_one.getWidth(), bm_one.getHeight());
+        bm_two.getPixels(pixels_two, 0, bm_two.getWidth(), 0, 0, bm_two.getWidth(), bm_two.getHeight());
+        double rs = 0;
+        for (int i = 0; i < pixels_two.length; i++) {
+            try {
+                rs += pixels_two[i];
+            } catch (Exception e) {
+            }
+        }
+        rs=rs/pixels_two.length;
+        double rt = 0;
+        for (int i = 0; i < pixels_one.length; i++) {
+            try {
+                rt += pixels_one[i];
+            } catch (Exception e) {
+            }
+        }
+        rt=rt/pixels_one.length;
+        double rc = 0;
+        double ra = 0;
+        double rd = 0;
+        if (pixels_one.length >= pixels_two.length) {
+            //对每一个像素的RGB值进行比较
+            for (int i = 0; i < pixels_two.length; i++) {
+                try {
+                    rc += (pixels_one[i]-rt) * (pixels_two[i]-rs);
+                    ra += Math.pow((pixels_one[i]-rt), 2);
+                    rd += Math.pow((pixels_two[i]-rs), 2);
+                } catch (Exception e) {
+                }
+
+            }
+        } else {
+            for (int i = 0; i < pixels_one.length; i++) {
+                try {
+                    rc += (pixels_one[i]-rt) * (pixels_two[i]-rs);
+                    ra += Math.pow((pixels_one[i]-rt), 2);
+                    rd += Math.pow((pixels_two[i]-rs), 2);
+                } catch (Exception e) {
+                }
+
+            }
+        }
+        found =(double)( rc/( sqrt(ra)* sqrt(rd)));
+        found= 0.5+0.5*found;
         return found;
     }
 
@@ -1077,17 +1168,18 @@ public class Bitmap_dispose {
         }
         return sb.toString();
     }
-    public static Bitmap Harris(Bitmap bm1) {
+
+    /**
+     * 特征点算法
+     *
+     */
+    public static Bitmap fast(Bitmap bm1) {
 
         Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
         Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
         Utils.bitmapToMat(bmp1, img1);
 
-        Mat img1s = new Mat();
-
-        cvtColor(img1, img1s, Imgproc.COLOR_BGRA2GRAY, 1); // 转为灰度单通道Mat
-
-        Harriss(img1s.getNativeObjAddr(), img1.getNativeObjAddr());
+        fasts(  img1.getNativeObjAddr());
 
         Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(img1, bitmap1);
@@ -1095,7 +1187,104 @@ public class Bitmap_dispose {
         return bitmap1;
     }
 
-    public static native void Harriss(long RGr, long Rgba);
+    public static native void fasts(  long Rgba);
+
+    public static Bitmap star(Bitmap bm1) {
+
+        Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
+        Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
+        Utils.bitmapToMat(bmp1, img1);
+        
+        stars(  img1.getNativeObjAddr());
+
+        Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img1, bitmap1);
+
+        return bitmap1;
+    }
+
+    public static native void stars(  long Rgba);
+
+    public static Bitmap sift(Bitmap bm1) {
+
+        Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
+        Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
+        Utils.bitmapToMat(bmp1, img1);
+
+        sifts(  img1.getNativeObjAddr());
+
+        Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img1, bitmap1);
+
+        return bitmap1;
+    }
+
+    public static native void sifts(  long Rgba);
+
+    public static Bitmap surf(Bitmap bm1) {
+
+        Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
+        Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
+        Utils.bitmapToMat(bmp1, img1);
+
+        surfs(  img1.getNativeObjAddr());
+
+        Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img1, bitmap1);
+
+        return bitmap1;
+    }
+
+    public static native void surfs(  long Rgba);
+
+    public static Bitmap orb(Bitmap bm1) {
+
+        Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
+        Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
+        Utils.bitmapToMat(bmp1, img1);
+
+        orbs(  img1.getNativeObjAddr());
+
+        Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img1, bitmap1);
+
+        return bitmap1;
+    }
+
+    public static native void orbs(  long Rgba);
+
+    public static Bitmap brisk(Bitmap bm1) {
+
+        Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
+        Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
+        Utils.bitmapToMat(bmp1, img1);
+
+        brisks(  img1.getNativeObjAddr());
+
+        Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img1, bitmap1);
+
+        return bitmap1;
+    }
+
+    public static native void brisks(  long Rgba);
+
+
+    public static Bitmap Harris(Bitmap bm1) {
+
+        Bitmap bmp1 = bm1.copy(Bitmap.Config.RGB_565, true);
+        Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
+        Utils.bitmapToMat(bmp1, img1);
+
+        Harriss(  img1.getNativeObjAddr());
+
+        Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(img1, bitmap1);
+
+        return bitmap1;
+    }
+
+    public static native void Harriss(  long Rgba);
 
     public static Bitmap Shit(Bitmap bm1) {
 
@@ -1103,11 +1292,7 @@ public class Bitmap_dispose {
         Mat img1 = new Mat(bmp1.getHeight(), bmp1.getWidth(), CvType.CV_8UC2, new Scalar(0));
         Utils.bitmapToMat(bmp1, img1);
 
-        Mat img1s = new Mat();
-
-        cvtColor(img1, img1s, Imgproc.COLOR_BGRA2GRAY, 1); // 转为灰度单通道Mat
-
-        Shits(img1s.getNativeObjAddr(), img1.getNativeObjAddr());
+        Shits(  img1.getNativeObjAddr());
 
         Bitmap bitmap1 = Bitmap.createBitmap(img1.cols(), img1.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(img1, bitmap1);
@@ -1115,5 +1300,5 @@ public class Bitmap_dispose {
         return bitmap1;
     }
 
-    public static native void Shits(long RGr, long Rgba);
+    public static native void Shits(  long Rgba);
 }

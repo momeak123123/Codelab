@@ -2,8 +2,7 @@ package com.example.momeak.codelab;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.FaceDetector;
-import android.media.ThumbnailUtils;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,41 +19,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qmuiteam.qmui.util.QMUIDisplayHelper;
+import com.qmuiteam.qmui.widget.QMUIProgressBar;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialog;
-import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction;
 import com.qmuiteam.qmui.widget.dialog.QMUITipDialog;
 import com.qmuiteam.qmui.widget.popup.QMUIListPopup;
 import com.qmuiteam.qmui.widget.popup.QMUIPopup;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
-import org.opencv.android.Utils;
-import org.opencv.core.Core;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfFloat;
-import org.opencv.core.MatOfInt;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-
-import static com.example.momeak.codelab.Bitmap_dispose.shae;
-import static org.opencv.imgproc.Imgproc.COLOR_BGR2HSV;
-import static org.opencv.imgproc.Imgproc.CV_COMP_CORREL;
-import static org.opencv.imgproc.Imgproc.cvtColor;
 
 
 public class there_statics extends AppCompatActivity {
@@ -64,12 +47,12 @@ public class there_statics extends AppCompatActivity {
     //剪裁请求码
     private static double sum;
     private static String results;
-    @BindView(R.id.ima)
-    ImageView ima;
-    @BindView(R.id.imb)
-    ImageView imb;
-    @BindView(R.id.close)
-    ImageView close;
+    @BindView(R.id.view7)
+    View view7;
+    @BindView(R.id.textView4)
+    TextView textView4;
+    @BindView(R.id.fold2)
+    ImageView fold2;
     @BindView(R.id.head)
     QMUIRadiusImageView head;
     @BindView(R.id.heads)
@@ -78,8 +61,37 @@ public class there_statics extends AppCompatActivity {
     ImageView imageView11;
     @BindView(R.id.imageView12)
     ImageView imageView12;
-    @BindView(R.id.similarity)
-    TextView similarity;
+    @BindView(R.id.imageView8)
+    ImageView imageView8;
+    @BindView(R.id.textView2)
+    TextView textView2;
+    @BindView(R.id.imageView13)
+    ImageView imageView13;
+    @BindView(R.id.textView6)
+    TextView textView6;
+    @BindView(R.id.textView8)
+    TextView textView8;
+    @BindView(R.id.imageView2)
+    ImageView imageView2;
+    @BindView(R.id.imageView7)
+    ImageView imageView7;
+    @BindView(R.id.imageView14)
+    ImageView imageView14;
+    @BindView(R.id.imageView16)
+    ImageView imageView16;
+    @BindView(R.id.textView12)
+    TextView textView12;
+    @BindView(R.id.textView13)
+    TextView textView13;
+    @BindView(R.id.progressBar)
+    QMUIProgressBar progressBar;
+    @BindView(R.id.textView14)
+    TextView textView14;
+    @BindView(R.id.textView15)
+    TextView textView15;
+    @BindView(R.id.textView16)
+    TextView textView16;
+
     private int headint = 0;
     //调用照相机返回图片文件
     private File tempFile;
@@ -88,7 +100,7 @@ public class there_statics extends AppCompatActivity {
     private int id;
     private static final int COMPLETED = 0;
     QMUITipDialog tipDialog;
-    private static final String RESULT_FORMAT = "00.0%";
+    private static final String RESULT_FORMAT = "0.0000";
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -114,15 +126,29 @@ public class there_statics extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.there_statics);
         ButterKnife.bind(this);
-        ima.setVisibility(View.GONE);
-        imb.setVisibility(View.GONE);
-        close.setVisibility(View.GONE);
         Intent intent = getIntent();
         id = (int) intent.getSerializableExtra("id");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
             StrictMode.setVmPolicy(builder.build());
         }
+        String txt = null;
+        switch (id) {
+            case 1:
+               txt="";
+                break;
+            case 2:
+                txt="";
+                break;
+            case 3:
+                txt="";
+                break;
+            case 4:
+                txt="";
+                break;
+            
+        }
+        textView16.setText(txt);
     }
 
     /**
@@ -238,32 +264,27 @@ public class there_statics extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.head, R.id.heads, R.id.imageView11, R.id.imageView12, R.id.imageView13, R.id.close, R.id.fold2})
+    @OnClick({R.id.imageView11, R.id.imageView12, R.id.imageView13, R.id.fold2, R.id.textView12, R.id.textView13})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.head:
-                if (headbit != null) {
-                    ima.setVisibility(View.VISIBLE);
-                    imb.setVisibility(View.VISIBLE);
-                    close.setVisibility(View.VISIBLE);
-                    imb.setImageBitmap(headbit);
-                }
-                break;
-            case R.id.heads:
-                if (headsbit != null) {
-                    ima.setVisibility(View.VISIBLE);
-                    imb.setVisibility(View.VISIBLE);
-                    close.setVisibility(View.VISIBLE);
-                    imb.setImageBitmap(headsbit);
-                }
-                break;
-            case R.id.close:
-                ima.setVisibility(View.GONE);
-                imb.setVisibility(View.GONE);
-                close.setVisibility(View.GONE);
-                break;
             case R.id.fold2:
                 this.finish();
+                break;
+            case R.id.textView12:
+                progressBar.setVisibility(View.VISIBLE);
+                textView14.setVisibility(View.VISIBLE);
+                textView15.setVisibility(View.VISIBLE);
+                textView12.setTextColor(Color.parseColor("#1B88EE"));
+                textView13.setTextColor(Color.parseColor("#212832"));
+                textView16.setVisibility(View.GONE);
+                break;
+            case R.id.textView13:
+                progressBar.setVisibility(View.GONE);
+                textView14.setVisibility(View.GONE);
+                textView15.setVisibility(View.GONE);
+                textView13.setTextColor(Color.parseColor("#1B88EE"));
+                textView12.setTextColor(Color.parseColor("#212832"));
+                textView16.setVisibility(View.VISIBLE);
                 break;
             case R.id.imageView11:
                 showListPopups(imageView11, 1);
@@ -294,39 +315,19 @@ public class there_statics extends AppCompatActivity {
                                     break;
                                 case 3:
                                     sum = Bitmap_dispose.similar(headbit, headsbit);
-                                    results = df.format(1 / (sum + 1));
+                                    results = df.format(sum);
                                     break;
                                 case 4:
+                                    sum = Bitmap_dispose.cosine(headbit, headsbit);
+                                    results = df.format(sum);
+                                    break;
+                                case 5:
                                     sum = Bitmap_dispose.shae(headbit, headsbit);
-                                    if (sum < 12) {
-                                        results = df.format((11 - sum) / 10);
+                                    if (sum < 11) {
+                                        results = df.format((10 - sum) / 10);
                                     } else {
                                         results = df.format(0);
                                     }
-                                    break;
-                                case 5:
-
-                                    break;
-                                case 6:
-
-                                    break;
-                                case 7:
-
-                                    break;
-                                case 8:
-
-                                    break;
-                                case 9:
-
-                                    break;
-                                case 10:
-
-                                    break;
-                                case 11:
-
-                                    break;
-                                case 12:
-
                                     break;
                             }
                             Message msg = new Message();
@@ -339,11 +340,17 @@ public class there_statics extends AppCompatActivity {
                 break;
         }
     }
+
     private Handler handlers = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == COMPLETED) {
-                similarity.setText("相似度为： " + results);
+                double res = (double) Double.parseDouble(results);
+                int red = (int)(res*10000);
+                double ret = (double) red/100;
+                progressBar.setMaxValue(10000);
+                progressBar.setProgress(red);
+                textView14.setText(ret+"%");
                 tipDialog.dismiss();
             }
         }

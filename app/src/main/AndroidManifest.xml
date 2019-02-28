@@ -30,15 +30,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".eight_javacamera"></activity>
+        <activity android:name=".seven_mini"></activity>
+        <activity android:name=".eight_javacamera" />
         <activity android:name=".four_data" />
         <activity android:name=".five_unlock" />
         <activity android:name=".there_statics" />
         <activity android:name=".two_javacamera" />
         <activity android:name=".four_face" />
         <activity android:name=".one_processing" />
-        <activity android:name=".statics">
-        </activity>
+        <activity android:name=".statics"></activity>
         <activity android:name=".one_dispose" />
         <activity android:name=".two_detection" />
         <activity android:name=".there_recognition" />

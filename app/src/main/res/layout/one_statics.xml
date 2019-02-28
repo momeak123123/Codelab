@@ -10,19 +10,15 @@
         android:id="@+id/seekBar2"
         android:layout_width="@dimen/d250"
         android:layout_height="19dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="@dimen/d20"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toStartOf="@+id/two"
-        app:layout_constraintStart_toEndOf="@+id/twos" />
+        app:layout_constraintEnd_toEndOf="@+id/seekBar3"
+        app:layout_constraintStart_toStartOf="@+id/seekBar3" />
 
     <SeekBar
         android:id="@+id/seekBar3"
         android:layout_width="@dimen/d250"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/d8"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="@dimen/d20"
         app:layout_constraintBottom_toTopOf="@+id/seekBar2"
         app:layout_constraintEnd_toStartOf="@+id/there"
@@ -82,8 +78,8 @@
 
     <ImageView
         android:id="@+id/imageView11"
-        android:layout_width="@dimen/d60"
-        android:layout_height="@dimen/d60"
+        android:layout_width="@dimen/d40"
+        android:layout_height="@dimen/d40"
         android:layout_marginStart="@dimen/d100"
         android:layout_marginBottom="@dimen/d50"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -92,8 +88,8 @@
 
     <ImageView
         android:id="@+id/imageView13"
-        android:layout_width="@dimen/d60"
-        android:layout_height="@dimen/d60"
+        android:layout_width="@dimen/d40"
+        android:layout_height="@dimen/d40"
         android:layout_marginEnd="@dimen/d100"
         app:layout_constraintBottom_toBottomOf="@+id/imageView11"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/d8"
-        android:text="上传待处理图片"
+        android:text="上传图片"
         app:layout_constraintEnd_toEndOf="@+id/imageView11"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="@+id/imageView11"
@@ -116,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/d8"
-        android:text="保存并打开相册"
+        android:text="保存并打开"
         app:layout_constraintEnd_toEndOf="@+id/imageView13"
         app:layout_constraintStart_toStartOf="@+id/imageView13"
         app:layout_constraintTop_toBottomOf="@+id/imageView13" />
@@ -124,31 +120,26 @@
     <ImageView
         android:id="@+id/head"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/d8"
-        android:layout_marginTop="@dimen/d8"
-        android:layout_marginEnd="@dimen/d8"
-        android:layout_marginBottom="@dimen/d50"
+        android:layout_height="@dimen/d300"
+        android:layout_marginStart="@dimen/d20"
+        android:layout_marginTop="@dimen/d20"
+        android:layout_marginEnd="@dimen/d20"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view7"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/uploading" />
+        app:srcCompat="@drawable/face_backs" />
 
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="@dimen/d250"
         android:layout_height="0dp"
-        android:layout_marginStart="@dimen/d8"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="@dimen/d20"
+        android:layout_marginBottom="@dimen/d40"
         android:max="3600"
         app:layout_constraintBottom_toTopOf="@+id/imageView11"
-        app:layout_constraintEnd_toStartOf="@+id/one"
-        app:layout_constraintStart_toEndOf="@+id/theres" />
+        app:layout_constraintEnd_toEndOf="@+id/seekBar3"
+        app:layout_constraintStart_toStartOf="@+id/seekBar3" />
 
     <TextView
         android:id="@+id/there"

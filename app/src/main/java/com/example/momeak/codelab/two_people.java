@@ -127,10 +127,10 @@ public class two_people extends Fragment {
         imbtxt4.setVisibility(View.GONE);
         imb5.setVisibility(View.GONE);
         ima5.setVisibility(View.GONE);
-        imbtxt5.setVisibility(View.GONE);*/
+        imbtxt5.setVisibility(View.GONE);
         imb6.setVisibility(View.GONE);
         ima6.setVisibility(View.GONE);
-        imbtxt6.setVisibility(View.GONE);
+        imbtxt6.setVisibility(View.GONE);*/
         imb7.setVisibility(View.GONE);
         ima7.setVisibility(View.GONE);
         imbtxt7.setVisibility(View.GONE);
@@ -156,11 +156,12 @@ public class two_people extends Fragment {
         ima14.setVisibility(View.GONE);
         imbtxt14.setVisibility(View.GONE);
 
-        imbtxt1.setText("动态人脸检测");
-        imbtxt2.setText("动态眼睛检测");
-        imbtxt3.setText("动态上半身检测");
-        imbtxt4.setText("动态下半身检测");
-        imbtxt5.setText("动态行人检测");
+        imbtxt1.setText("静态人脸检测");
+        imbtxt2.setText("动态人脸检测");
+        imbtxt3.setText("动态眼睛检测");
+        imbtxt4.setText("动态上半身检测");
+        imbtxt5.setText("动态下半身检测");
+        imbtxt6.setText("动态行人检测");
         return view;
     }
 
@@ -253,7 +254,7 @@ public class two_people extends Fragment {
                 startActivity(intent2);
                 break;
             case R.id.imb1:
-                Intent intent1 = new Intent(getContext(), two_javacamera.class);
+                Intent intent1 = new Intent(getContext(), statics.class);
                 intent1.putExtra("id", 1);
                 startActivity(intent1);
                 break;

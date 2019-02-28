@@ -23,12 +23,14 @@ import butterknife.OnClick;
 
 public class one_dispose extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
 
-    @BindView(R.id.txt)
-    TextView txt;
+    @BindView(R.id.view3)
+    View view3;
     @BindView(R.id.fold)
     ImageView fold;
-    @BindView(R.id.view5)
-    View view5;
+    @BindView(R.id.txt)
+    TextView txt;
+    @BindView(R.id.imageView5)
+    ImageView imageView5;
     @BindView(R.id.headtxt)
     TextView headtxt;
     @BindView(R.id.headtxts)
@@ -92,6 +94,7 @@ public class one_dispose extends AppCompatActivity implements BottomNavigationBa
                     mstatic1 = one_picture.newInstance();
                 }
                 transaction.replace(R.id.layout1, mstatic1);
+                break;
             case 1:
                 if (mstatic2 == null) {
                     mstatic2 = one_characteristic.newInstance();

@@ -23,12 +23,15 @@ import butterknife.OnClick;
 
 public class two_detection extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
 
+
+    @BindView(R.id.view3)
+    View view3;
     @BindView(R.id.fold)
     ImageView fold;
     @BindView(R.id.txt)
     TextView txt;
-    @BindView(R.id.view5)
-    View view5;
+    @BindView(R.id.imageView5)
+    ImageView imageView5;
     @BindView(R.id.headtxt)
     TextView headtxt;
     @BindView(R.id.headtxts)
