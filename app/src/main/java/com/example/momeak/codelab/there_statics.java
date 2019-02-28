@@ -13,6 +13,8 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -63,12 +65,8 @@ public class there_statics extends AppCompatActivity {
     ImageView imageView12;
     @BindView(R.id.imageView8)
     ImageView imageView8;
-    @BindView(R.id.textView2)
-    TextView textView2;
     @BindView(R.id.imageView13)
     ImageView imageView13;
-    @BindView(R.id.textView6)
-    TextView textView6;
     @BindView(R.id.textView8)
     TextView textView8;
     @BindView(R.id.imageView2)
@@ -91,6 +89,7 @@ public class there_statics extends AppCompatActivity {
     TextView textView15;
     @BindView(R.id.textView16)
     TextView textView16;
+
 
     private int headint = 0;
     //调用照相机返回图片文件
@@ -124,6 +123,13 @@ public class there_statics extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            //设置修改状态栏
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            //设置状态栏的颜色，和你的app主题或者标题栏颜色设置一致就ok了
+            window.setStatusBarColor(getResources().getColor(R.color.but));
+        }
         setContentView(R.layout.there_statics);
         ButterKnife.bind(this);
         Intent intent = getIntent();
@@ -135,18 +141,18 @@ public class there_statics extends AppCompatActivity {
         String txt = null;
         switch (id) {
             case 1:
-               txt="";
+                txt = "";
                 break;
             case 2:
-                txt="";
+                txt = "";
                 break;
             case 3:
-                txt="";
+                txt = "";
                 break;
             case 4:
-                txt="";
+                txt = "";
                 break;
-            
+
         }
         textView16.setText(txt);
     }
@@ -346,11 +352,11 @@ public class there_statics extends AppCompatActivity {
         public void handleMessage(Message msg) {
             if (msg.what == COMPLETED) {
                 double res = (double) Double.parseDouble(results);
-                int red = (int)(res*10000);
-                double ret = (double) red/100;
+                int red = (int) (res * 10000);
+                double ret = (double) red / 100;
                 progressBar.setMaxValue(10000);
                 progressBar.setProgress(red);
-                textView14.setText(ret+"%");
+                textView14.setText(ret + "%");
                 tipDialog.dismiss();
             }
         }
