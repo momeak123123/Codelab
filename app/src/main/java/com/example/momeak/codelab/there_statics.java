@@ -141,16 +141,19 @@ public class there_statics extends AppCompatActivity {
         String txt = null;
         switch (id) {
             case 1:
-                txt = "";
+                txt = "像素值对比，对每一个像素进行对比，适合查找是否为同一图片";
                 break;
             case 2:
-                txt = "";
+                txt = "直方图对比";
                 break;
             case 3:
-                txt = "";
+                txt = "欧式距离对比";
                 break;
             case 4:
-                txt = "";
+                txt = "余弦相似度对比";
+                break;
+            case 5:
+                txt = "Hash算法对比";
                 break;
 
         }
